@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f3f9ff, #d2fff1);
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      padding: 2rem;
+    }
+    h2 {
+      text-align: center;
+      color: #43e97b;
+    }
+    .login-section,
+    .admin-section {
+      display: none;
+    }
+    .admin-section.active {
+      display: block;
+    }
+    .login-section.active {
+      display: block;
+    }
+    input[type="password"] {
+      width: 100%;
+      padding: 0.8em;
+      border-radius: 0.5em;
+      border: 1.5px solid #ccc;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    .btn {
+      padding: 0.6em 1.4em;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.5em;
+      cursor: pointer;
+      margin: 0.3rem;
+      transition: 0.2s ease;
+    }
+    .btn-login {
+      background: #43e97b;
+      color: white;
+    }
+    .btn-reset {
+      background: #f7797d;
+      color: white;
+    }
+    .btn-save {
+      background: #0077ff;
+      color: white;
+    }
+    label {
+      display: block;
+      margin: 1rem 0 0.5rem;
+      font-weight: bold;
+    }
+    .page-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+    }
+    .page-options input[type="checkbox"] {
+      transform: scale(1.3);
+      margin-left: 0.5rem;
+    }
+    .message {
+      margin-top: 1rem;
+      color: green;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>🔐 Admin Settings</h2>
+
+    <div class="login-section active" id="loginSection">
+      <input type="password" id="adminPass" placeholder="Enter admin password">
+      <button class="btn btn-login" onclick="login()">Login</button>
+    </div>
+
+    <div class="admin-section" id="adminSection">
+      <div id="pageSettings"></div>
+      <button class="btn btn-save" onclick="saveSettings()">Save Settings</button>
+      <button class="btn btn-reset" onclick="resetAll()">Reset All</button>
+      <div class="message" id="messageBox"></div>
+    </div>
+  </div>
+
+  <script>
+    const correctPassword = 'digoitha';
+
+    const pages = [
+      { file: 'masea.html', label: 'Masea\'s Story' },
+      { file: 'peter.html', label: 'Peter\'s Story' },
+      { file: 'memories.html', label: 'Memories' },
+      { file: 'lessons.html', label: 'Lessons' },
+      { file: 'leave.html', label: 'Reasons to Leave' },
+      { file: 'case-of.html', label: 'Case of Love' }
+    ];
+
+    const loginSection = document.getElementById('loginSection');
+    const adminSection = document.getElementById('adminSection');
+    const messageBox = document.getElementById('messageBox');
+    const pageSettings = document.getElementById('pageSettings');
+
+    function login() {
+      const inputPass = document.getElementById('adminPass').value;
+      if (inputPass === correctPassword) {
+        loginSection.classList.remove('active');
+        adminSection.classList.add('active');
+        loadSettings();
+      } else {
+        alert("Wrong password");
+      }
+    }
+
+    function loadSettings() {
+      pageSettings.innerHTML = '';
+      pages.forEach(({ file, label }) => {
+        const hidden = localStorage.getItem(file + '_hidden') === 'true';
+        const protected = localStorage.getItem(file + '_protected') === 'true';
+
+        const div = document.createElement('div');
+        div.className = 'page-options';
+        div.innerHTML = `
+          <span>${label}</span>
+          <span>
+            🔒 <input type="checkbox" data-file="${file}" data-type="protected" ${protected ? 'checked' : ''}>
+            👁️ <input type="checkbox" data-file="${file}" data-type="hidden" ${hidden ? 'checked' : ''}>
+          </span>
+        `;
+        pageSettings.appendChild(div);
+      });
+    }
+
+    function saveSettings() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        const key = cb.dataset.file + '_' + cb.dataset.type;
+        localStorage.setItem(key, cb.checked);
+      });
+      messageBox.textContent = "✅ Settings saved!";
+      setTimeout(() => messageBox.textContent = '', 2000);
+    }
+
+    function resetAll() {
+      pages.forEach(({ file }) => {
+        localStorage.removeItem(file + '_hidden');
+        localStorage.removeItem(file + '_protected');
+      });
+      loadSettings();
+      messageBox.textContent = "🔄 All settings reset.";
+      setTimeout(() => messageBox.textContent = '', 2000);
+    }
+  </script>
+    <a href="index.html" style="
+    display: inline-block;
+    margin-top: 1.2rem;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    color: white;
+    padding: 0.55rem 1.4rem;
+    border-radius: 1.6rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 1.5px 8px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s;
+" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    ⬅️ Back to Main Menu
+</a>
+</body>
+</html>

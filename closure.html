@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Closure & Gratitude</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom, #f2f8ff, #e6eef5);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #003366;
+    }
+
+    blockquote {
+      background: #ffffff;
+      border-left: 4px solid #0099cc;
+      margin: 1rem auto;
+      padding: 1rem;
+      max-width: 800px;
+      font-style: italic;
+      border-radius: 8px;
+    }
+
+    ul {
+      max-width: 700px;
+      margin: auto;
+      padding-left: 1.5rem;
+    }
+
+    .section {
+      margin-bottom: 2.5rem;
+    }
+
+    .edit-section {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+    }
+
+    .btn-group {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .btn.save {
+      background-color: #0077cc;
+      color: #fff;
+    }
+
+    .btn.cancel {
+      background-color: #ccc;
+    }
+
+    .floating-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #0077cc;
+      color: white;
+      padding: 10px 16px;
+      font-size: 14px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+
+    .floating-btn:hover {
+      background-color: #005fa3;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 4rem;
+    }
+
+    .success {
+      color: green;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Closure & Gratitude</h1>
+
+  <div class="section">
+    <h2>From Peter</h2>
+    <blockquote>
+      If I could go back, I’d listen more, love more, and hold on tighter during the storms. You gave me memories, lessons, and love. Thank you for walking with me, even when the road was tough.
+    </blockquote>
+  </div>
+
+  <div class="section">
+    <h2>From Masea (Write Your Reflections)</h2>
+    <div class="edit-section">
+      <textarea id="maseaMessage" placeholder="Masea, write your reflections here..."></textarea>
+      <div class="btn-group">
+        <button class="btn save" onclick="sendToTelegram()">Save</button>
+        <button class="btn cancel" onclick="document.getElementById('maseaMessage').value=''">Cancel</button>
+      </div>
+      <div id="responseMsg"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>What I am Grateful For</h2>
+    <ul>
+      <li>The gift of meeting each other</li>
+      <li>Raising Gabriella together</li>
+      <li>Unforgettable birthdays, weddings, and hospital nights</li>
+      <li>The love we once shared, and the lessons we’ll carry forever</li>
+      <li>I'm glad we never called each other names</li>
+      <li>No physical abuse</li>
+      <li>Mathings!!</li>
+    </ul>
+  </div>
+
+  <button class="floating-btn" onclick="window.location.href='index.html'">🏠 Main Page</button>
+
+  <footer>© 2025 Our Story — Peter & Vincencia</footer>
+
+  <script>
+    async function sendToTelegram() {
+      const message = document.getElementById("maseaMessage").value.trim();
+      const responseMsg = document.getElementById("responseMsg");
+
+      if (!message) {
+        responseMsg.innerHTML = "<div class='error'>Please write something before saving.</div>";
+        return;
+      }
+
+      const encodedMsg = encodeURIComponent(`📝 *New Entry from Masea*\n\n${message}`);
+      const botToken = "7825435580:AAGc45ZosIvFSQaB7q2Jsy9e9wsEFGQUBck";
+      const chatId = "-1002712270878";
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMsg}&parse_mode=Markdown`;
+
+      try {
+        const res = await fetch(url);
+        if (res.ok) {
+          responseMsg.innerHTML = "<div class='success'>Message saved and sent to Peter to update ✅</div>";
+          document.getElementById("maseaMessage").value = '';
+        } else {
+          responseMsg.innerHTML = "<div class='error'>Failed to send message. Try again.</div>";
+        }
+      } catch (err) {
+        responseMsg.innerHTML = "<div class='error'>Error sending to Telegram.</div>";
+      }
+    }
+  </script>
+
+</body>
+</html>

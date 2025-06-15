@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Our Memories</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --gradient-bg: linear-gradient(135deg, #6a85f1 0%, #f7797d 100%);
+            --btn-gradient: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            --main-radius: 2rem;
+            --icon-shadow: 0 2px 8px rgba(100,100,150,0.18);
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: var(--gradient-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            color: #1a2433;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+        .container {
+            background: rgba(255,255,255,0.96);
+            border-radius: var(--main-radius);
+            box-shadow: var(--card-shadow);
+            padding: 3.5rem 2.5rem;
+            text-align: center;
+            max-width: 420px;
+            width: 96vw;
+            animation: pop-in 0.8s cubic-bezier(.21,1.25,.56,.97) both;
+            position: relative;
+        }
+        @keyframes pop-in {
+            0% { transform: scale(0.95) translateY(30px); opacity: 0;}
+            100% { transform: scale(1) translateY(0); opacity: 1;}
+        }
+        .memory-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.6rem;
+            background: linear-gradient(90deg, #7F7FD5 0%, #86A8E7 50%, #91EAE4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            gap: 0.65em;
+            user-select: none;
+        }
+        .camera-icon {
+            width: 2.1em;
+            height: 2.1em;
+            display: inline-block;
+            margin-right: 0.1em;
+            filter: drop-shadow(var(--icon-shadow));
+            flex-shrink: 0;
+            background: none;
+        }
+        .instructions {
+            color: #5c6784;
+            font-size: 1.15rem;
+            margin-bottom: 2.2rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+        .link-btn {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 1.17rem;
+            padding: 1em 2.7em;
+            border-radius: 2em;
+            text-decoration: none;
+            background: var(--btn-gradient);
+            color: #fff;
+            box-shadow: 0 3px 15px rgba(67, 233, 123, 0.18), 0 1.5px 6px rgba(56, 249, 215, 0.11);
+            border: none;
+            transition: background 0.18s, transform 0.15s, box-shadow 0.18s;
+            letter-spacing: 0.04em;
+            outline: none;
+            cursor: pointer;
+        }
+        .link-btn:hover, .link-btn:focus {
+            background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 8px 28px rgba(67, 233, 123, 0.25), 0 4px 14px rgba(56, 249, 215, 0.15);
+            color: #fff;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 2.3rem 1.1rem;
+                max-width: 96vw;
+            }
+            .memory-label {
+                font-size: 1.4rem;
+            }
+            .camera-icon {
+                width: 1.4em;
+                height: 1.4em;
+            }
+        }
+        /* Decorative confetti dots for extra colorfulness */
+        .dot {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.23;
+            pointer-events: none;
+        }
+        .dot1 { background: #fdc094; width: 28px; height: 28px; top: -16px; left: 22px;}
+        .dot2 { background: #7ed6ea; width: 18px; height: 18px; bottom: 14px; right: 28px;}
+        .dot3 { background: #a8e063; width: 32px; height: 32px; top: 8px; right: -18px;}
+        .dot4 { background: #f7797d; width: 14px; height: 14px; bottom: 10px; left: -10px;}
+        .dot5 { background: #8fd3f4; width: 22px; height: 22px; top: 50%; left: -18px;}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="dot dot1"></span>
+        <span class="dot dot2"></span>
+        <span class="dot dot3"></span>
+        <span class="dot dot4"></span>
+        <span class="dot dot5"></span>
+        <div class="memory-label">
+            <span class="camera-icon" aria-label="camera" role="img">
+                <!-- Modern, colourful Camera SVG Icon -->
+                <svg viewBox="0 0 40 40" fill="none">
+                  <defs>
+                    <linearGradient id="cam-grad1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#6a85f1"/>
+                      <stop offset="1" stop-color="#f7797d"/>
+                    </linearGradient>
+                    <linearGradient id="cam-grad2" x1="20" y1="13" x2="20" y2="27" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#43e97b"/>
+                      <stop offset="1" stop-color="#38f9d7"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="7" y="11" width="26" height="18" rx="5" fill="url(#cam-grad1)"/>
+                  <circle cx="20" cy="20" r="6.5" fill="#fff" />
+                  <circle cx="20" cy="20" r="4.5" fill="url(#cam-grad2)"/>
+                  <rect x="15" y="7" width="10" height="4.5" rx="2.3" fill="#fff" opacity="0.82"/>
+                  <rect x="15.8" y="7.6" width="8.4" height="3.2" rx="1.5" fill="url(#cam-grad1)"/>
+                  <circle cx="29" cy="16" r="1.4" fill="#fff" opacity="0.7"/>
+                  <circle cx="13" cy="16.5" r="1.1" fill="#fff" opacity="0.38"/>
+                  <circle cx="26.5" cy="25" r="0.9" fill="#fff" opacity="0.25"/>
+                  <circle cx="20" cy="20" r="2.6" fill="none" stroke="#fff" stroke-width="1.2" opacity="0.36"/>
+                </svg>
+            </span>
+            VIEW OUR MEMORIES
+        </div>
+        <div class="instructions">
+            <span style="background: linear-gradient(90deg, #f7797d 0%, #43e97b 100%);
+                -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:700;">
+                Click the link below
+            </span> 
+            to view our most precious moments!
+        </div>
+        <a class="link-btn" href="https://drive.google.com/drive/folders/1zV0SWqalkE98h1UDDvIPbe7n00hhTL3V" target="_blank" rel="noopener noreferrer">
+            Open Memories Folder
+        </a>
+        <a href="index.html" style="
+    display: inline-block;
+    margin-top: 1.2rem;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    color: white;
+    padding: 0.55rem 1.4rem;
+    border-radius: 1.6rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 1.5px 8px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s;
+" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+    ⬅️ Back to Main Menu
+</a>
+    </div>
+    
+</body>
+</html>

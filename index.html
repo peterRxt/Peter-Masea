@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Story - Landing Page</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="book-icon.png" type="image/png"/>
+  <meta name="description" content="A real story of love, heartbreak, and memory by Peter & Masea. Told in chapters with images and emotion."/>
+  <style>
+    :root {
+      --bg-light: #fff;
+      --text-light: #333;
+      --bg-dark: #121212;
+      --text-dark: #f1f1f1;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background-color 0.4s, color 0.4s;
+    }
+    .dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+    header {
+      background: url('1.jpg') center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      color: white;
+    }
+    header h1 {
+      font-size: 3em;
+      margin-bottom: 0.3em;
+      text-shadow: 2px 2px 8px black;
+    }
+    header p {
+      font-size: 1.5em;
+      margin-bottom: 2em;
+      text-shadow: 1px 1px 6px black;
+    }
+    .btn-start {
+      background: #ff4081;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.1em;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s;
+    }
+    .btn-start:hover {
+      background: #e91e63;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 40px 20px;
+    }
+    .nav-item {
+      text-decoration: none;
+      color: inherit;
+      border: 2px solid #ff4081;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: all 0.3s;
+      background: rgba(255, 64, 129, 0.1);
+      text-align: center;
+    }
+    .nav-item:hover {
+      background: #ff4081;
+      color: white;
+    }
+    .toggle-darkmode {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2em;
+      z-index: 1000;
+    }
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Our Love Story</h1>
+    <p>Peter & Masea's Journey</p>
+    <button class="btn-start" onclick="document.getElementById('chapters').scrollIntoView({ behavior: 'smooth' })">
+      Begin Reading
+    </button>
+  </header>
+
+  <button class="toggle-darkmode" onclick="toggleMode()">🌓</button>
+
+  <audio autoplay loop>
+    <source src="soft-love-theme.mp3" type="audio/mpeg" />
+  </audio>
+
+  <main id="chapters">
+    <nav id="navLinks">
+      <!-- Story links will load here -->
+    </nav>
+  </main>
+
+  <!-- Floating Admin Panel Button -->
+  <a href="admin.html" style="
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      padding: 0.65rem 1.4rem;
+      border-radius: 1.8rem;
+      font-weight: bold;
+      font-size: 0.95rem;
+      text-decoration: none;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      z-index: 999;
+      transition: transform 0.2s;
+    "
+    onmouseover="this.style.transform='scale(1.05)'"
+    onmouseout="this.style.transform='scale(1)'">
+    🔐 Admin Panel
+  </a>
+
+  <script>
+    function toggleMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    const pages = [
+      { file: 'masea.html', label: '📖 Masea\'s Story' },
+      { file: 'Peter.html', label: '👨 Peter\'s Journey' },
+      { file: 'memories.html', label: '📸 Memories' },
+      { file: 'lessons.html', label: '💡 Lessons' },
+      { file: 'leave.html', label: '❌ Reasons to Leave' },
+      { file: 'case-of.html', label: '🔍 The Case Of...' },
+      { file: 'closure.html', label: '📖 Closure & Gratitude' }
+    ];
+
+    const nav = document.getElementById('navLinks');
+    const password = 'digoitha';
+
+    pages.forEach(({ file, label }) => {
+      const isHidden = localStorage.getItem(file + '_hidden') === 'true';
+      const isProtected = localStorage.getItem(file + '_protected') === 'true';
+
+      if (!isHidden) {
+        const link = document.createElement('a');
+        link.textContent = label;
+        link.href = file;
+        link.className = 'nav-item';
+
+        if (isProtected) {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const entered = prompt('🔐 Enter password to access this section:');
+            if (entered === password) {
+              window.location.href = file;
+            } else {
+              alert('❌ Incorrect password.');
+            }
+          });
+        }
+
+        nav.appendChild(link);
+      }
+    });
+  </script>
+
+</body>
+</html>
