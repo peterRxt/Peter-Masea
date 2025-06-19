@@ -1,189 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>View Our Memories</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        :root {
-            --gradient-bg: linear-gradient(135deg, #6a85f1 0%, #f7797d 100%);
-            --btn-gradient: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
-            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-            --main-radius: 2rem;
-            --icon-shadow: 0 2px 8px rgba(100,100,150,0.18);
-        }
+  <meta charset="UTF-8">
+  <title>View Our Memories</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+      --btn-gradient: linear-gradient(90deg, #00dbde 0%, #fc00ff 100%);
+      --shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      --radius: 1.8rem;
+    }
 
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        body {
-            min-height: 100vh;
-            margin: 0;
-            background: var(--gradient-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-            color: #1a2433;
-            box-sizing: border-box;
-            overflow-x: hidden;
-        }
-        .container {
-            background: rgba(255,255,255,0.96);
-            border-radius: var(--main-radius);
-            box-shadow: var(--card-shadow);
-            padding: 3.5rem 2.5rem;
-            text-align: center;
-            max-width: 420px;
-            width: 96vw;
-            animation: pop-in 0.8s cubic-bezier(.21,1.25,.56,.97) both;
-            position: relative;
-        }
-        @keyframes pop-in {
-            0% { transform: scale(0.95) translateY(30px); opacity: 0;}
-            100% { transform: scale(1) translateY(0); opacity: 1;}
-        }
-        .memory-label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.25rem;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            margin-bottom: 1.6rem;
-            background: linear-gradient(90deg, #7F7FD5 0%, #86A8E7 50%, #91EAE4 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            gap: 0.65em;
-            user-select: none;
-        }
-        .camera-icon {
-            width: 2.1em;
-            height: 2.1em;
-            display: inline-block;
-            margin-right: 0.1em;
-            filter: drop-shadow(var(--icon-shadow));
-            flex-shrink: 0;
-            background: none;
-        }
-        .instructions {
-            color: #5c6784;
-            font-size: 1.15rem;
-            margin-bottom: 2.2rem;
-            font-weight: 500;
-            line-height: 1.6;
-        }
-        .link-btn {
-            display: inline-block;
-            font-weight: 700;
-            font-size: 1.17rem;
-            padding: 1em 2.7em;
-            border-radius: 2em;
-            text-decoration: none;
-            background: var(--btn-gradient);
-            color: #fff;
-            box-shadow: 0 3px 15px rgba(67, 233, 123, 0.18), 0 1.5px 6px rgba(56, 249, 215, 0.11);
-            border: none;
-            transition: background 0.18s, transform 0.15s, box-shadow 0.18s;
-            letter-spacing: 0.04em;
-            outline: none;
-            cursor: pointer;
-        }
-        .link-btn:hover, .link-btn:focus {
-            background: linear-gradient(90deg, #38f9d7 0%, #43e97b 100%);
-            transform: translateY(-2px) scale(1.04);
-            box-shadow: 0 8px 28px rgba(67, 233, 123, 0.25), 0 4px 14px rgba(56, 249, 215, 0.15);
-            color: #fff;
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 2.3rem 1.1rem;
-                max-width: 96vw;
-            }
-            .memory-label {
-                font-size: 1.4rem;
-            }
-            .camera-icon {
-                width: 1.4em;
-                height: 1.4em;
-            }
-        }
-        /* Decorative confetti dots for extra colorfulness */
-        .dot {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.23;
-            pointer-events: none;
-        }
-        .dot1 { background: #fdc094; width: 28px; height: 28px; top: -16px; left: 22px;}
-        .dot2 { background: #7ed6ea; width: 18px; height: 18px; bottom: 14px; right: 28px;}
-        .dot3 { background: #a8e063; width: 32px; height: 32px; top: 8px; right: -18px;}
-        .dot4 { background: #f7797d; width: 14px; height: 14px; bottom: 10px; left: -10px;}
-        .dot5 { background: #8fd3f4; width: 22px; height: 22px; top: 50%; left: -18px;}
-    </style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: var(--shadow);
+      position: relative;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.9s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .memory-label {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #fc466b, #3f5efb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .camera-icon svg {
+      width: 2.4rem;
+      height: 2.4rem;
+      flex-shrink: 0;
+    }
+
+    .instructions {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    .instructions span {
+      font-weight: 600;
+      background: linear-gradient(90deg, #f7797d, #43e97b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .link-btn {
+      display: inline-block;
+      padding: 0.9rem 2.4rem;
+      background: var(--btn-gradient);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 2rem;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .link-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+    }
+
+    .back-link {
+      margin-top: 1.4rem;
+      display: inline-block;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      color: white;
+      background: #ff9a9e;
+      padding: 0.5rem 1.2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .back-link:hover {
+      transform: scale(1.04);
+    }
+
+    /* Decorative dots */
+    .dot {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    .dot1 { background: #ffecd2; width: 22px; height: 22px; top: -10px; left: 20px; }
+    .dot2 { background: #a1c4fd; width: 16px; height: 16px; bottom: 10px; right: 30px; }
+    .dot3 { background: #c2ffd8; width: 30px; height: 30px; top: 10px; right: -15px; }
+    .dot4 { background: #fcb69f; width: 14px; height: 14px; bottom: 8px; left: -10px; }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <span class="dot dot1"></span>
-        <span class="dot dot2"></span>
-        <span class="dot dot3"></span>
-        <span class="dot dot4"></span>
-        <span class="dot dot5"></span>
-        <div class="memory-label">
-            <span class="camera-icon" aria-label="camera" role="img">
-                <!-- Modern, colourful Camera SVG Icon -->
-                <svg viewBox="0 0 40 40" fill="none">
-                  <defs>
-                    <linearGradient id="cam-grad1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                      <stop stop-color="#6a85f1"/>
-                      <stop offset="1" stop-color="#f7797d"/>
-                    </linearGradient>
-                    <linearGradient id="cam-grad2" x1="20" y1="13" x2="20" y2="27" gradientUnits="userSpaceOnUse">
-                      <stop stop-color="#43e97b"/>
-                      <stop offset="1" stop-color="#38f9d7"/>
-                    </linearGradient>
-                  </defs>
-                  <rect x="7" y="11" width="26" height="18" rx="5" fill="url(#cam-grad1)"/>
-                  <circle cx="20" cy="20" r="6.5" fill="#fff" />
-                  <circle cx="20" cy="20" r="4.5" fill="url(#cam-grad2)"/>
-                  <rect x="15" y="7" width="10" height="4.5" rx="2.3" fill="#fff" opacity="0.82"/>
-                  <rect x="15.8" y="7.6" width="8.4" height="3.2" rx="1.5" fill="url(#cam-grad1)"/>
-                  <circle cx="29" cy="16" r="1.4" fill="#fff" opacity="0.7"/>
-                  <circle cx="13" cy="16.5" r="1.1" fill="#fff" opacity="0.38"/>
-                  <circle cx="26.5" cy="25" r="0.9" fill="#fff" opacity="0.25"/>
-                  <circle cx="20" cy="20" r="2.6" fill="none" stroke="#fff" stroke-width="1.2" opacity="0.36"/>
-                </svg>
-            </span>
-            VIEW OUR MEMORIES
-        </div>
-        <div class="instructions">
-            <span style="background: linear-gradient(90deg, #f7797d 0%, #43e97b 100%);
-                -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:700;">
-                Click the Folder below
-            </span> 
-            to view our moments!
-        </div>
-        <a class="link-btn" href="https://drive.google.com/drive/folders/1zV0SWqalkE98h1UDDvIPbe7n00hhTL3V" target="_blank" rel="noopener noreferrer">
-            Open Memories Folder
-        </a>
-        <a href="index.html" style="
-    display: inline-block;
-    margin-top: 1.2rem;
-    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-    color: white;
-    padding: 0.55rem 1.4rem;
-    border-radius: 1.6rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    text-decoration: none;
-    box-shadow: 0 1.5px 8px rgba(0, 0, 0, 0.12);
-    transition: transform 0.2s;
-" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-    ⬅️ Back to Main Menu
-</a>
+  <div class="container">
+    <span class="dot dot1"></span>
+    <span class="dot dot2"></span>
+    <span class="dot dot3"></span>
+    <span class="dot dot4"></span>
+
+    <div class="memory-label">
+      <span class="camera-icon">
+        <!-- Colorful Camera SVG Icon -->
+        <svg viewBox="0 0 40 40" fill="none">
+          <defs>
+            <linearGradient id="cam-grad1" x1="0" y1="0" x2="40" y2="40">
+              <stop stop-color="#6a85f1" />
+              <stop offset="1" stop-color="#f7797d" />
+            </linearGradient>
+            <linearGradient id="cam-grad2" x1="20" y1="13" x2="20" y2="27">
+              <stop stop-color="#43e97b" />
+              <stop offset="1" stop-color="#38f9d7" />
+            </linearGradient>
+          </defs>
+          <rect x="7" y="11" width="26" height="18" rx="5" fill="url(#cam-grad1)" />
+          <circle cx="20" cy="20" r="6.5" fill="#fff" />
+          <circle cx="20" cy="20" r="4.5" fill="url(#cam-grad2)" />
+          <rect x="15" y="7" width="10" height="4.5" rx="2.3" fill="#fff" opacity="0.82" />
+          <circle cx="29" cy="16" r="1.4" fill="#fff" opacity="0.7" />
+        </svg>
+      </span>
+      View Our Memories
     </div>
-    
+
+    <div class="instructions">
+      <span>Click the folder below</span> to View 📸✨
+    </div>
+
+    <a class="link-btn" href="https://drive.google.com/drive/folders/1zV0SWqalkE98h1UDDvIPbe7n00hhTL3V" target="_blank" rel="noopener noreferrer">
+      Open Memories Folder
+    </a>
+
+    <br>
+    <a class="back-link" href="index.html">⬅️ Back to Main Menu</a>
+  </div>
+
 </body>
 </html>
