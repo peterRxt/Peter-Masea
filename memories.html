@@ -83,6 +83,7 @@
       margin-top: 1rem;
       font-weight: 500;
       color: #3a3a3a;
+      white-space: pre-wrap;
     }
 
     .back-link {
@@ -107,17 +108,17 @@
 
   <div class="container">
     <h2>📁 View Our Memories</h2>
-    <p>Click below to access our shared memory folder.</p>
+    <p>Click below to View our Memories.</p>
     <a class="link-btn" href="https://drive.google.com/drive/folders/1zV0SWqalkE98h1UDDvIPbe7n00hhTL3V" target="_blank">
-      Open Folder
+      
     </a>
   </div>
 
   <div class="container">
-    <h2>📤 Upload Your Memory</h2>
-    <p>Share your favorite photos or videos. They’ll be saved automatically for future updates.</p>
-    <input type="file" id="fileInput" accept="image/*,video/*" />
-    <button class="upload-btn" onclick="uploadFile()">Upload & Send to Telegram</button>
+    <h2>📤 Upload Your own saved Memories</h2>
+    <p>Share your favorite photos/videos.</p>
+    <input type="file" id="fileInput" multiple accept="image/*,video/*" />
+    <button class="upload-btn" onclick="uploadFiles()">Upload All & Send </button>
     <div class="status" id="statusMsg"></div>
   </div>
 
@@ -126,40 +127,46 @@
   <script>
     const botToken = "7825435580:AAGc45ZosIvFSQaB7q2Jsy9e9wsEFGQUBck";
     const chatId = "-1002712270878";
+    const defaultCaption = "🆕 New memory from Mase 📸";
 
-    async function uploadFile() {
+    async function uploadFiles() {
       const input = document.getElementById("fileInput");
       const statusMsg = document.getElementById("statusMsg");
-      const file = input.files[0];
+      const files = input.files;
 
-      if (!file) {
-        statusMsg.textContent = "Please select a file first.";
+      if (!files.length) {
+        statusMsg.textContent = "Please select at least one file.";
         return;
       }
 
-      statusMsg.textContent = "Uploading, please wait...";
+      statusMsg.textContent = `Uploading ${files.length} file(s)...\n`;
 
-      const formData = new FormData();
-      formData.append("chat_id", chatId);
-      formData.append(file.type.startsWith("video") ? "video" : "photo", file);
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const formData = new FormData();
+        formData.append("chat_id", chatId);
+        formData.append("caption", defaultCaption);
+        formData.append(file.type.startsWith("video") ? "video" : "photo", file);
 
-      try {
-        const response = await fetch(`https://api.telegram.org/bot${botToken}/send${file.type.startsWith("video") ? "Video" : "Photo"}`, {
-          method: "POST",
-          body: formData
-        });
+        try {
+          const res = await fetch(`https://api.telegram.org/bot${botToken}/send${file.type.startsWith("video") ? "Video" : "Photo"}`, {
+            method: "POST",
+            body: formData
+          });
 
-        const result = await response.json();
+          const result = await res.json();
 
-        if (result.ok) {
-          statusMsg.textContent = "✅ Uploaded successfully!";
-          input.value = ""; // reset file input
-        } else {
-          statusMsg.textContent = "❌ Upload failed. Try again.";
+          if (result.ok) {
+            statusMsg.textContent += `✅ ${file.name} uploaded successfully\n`;
+          } else {
+            statusMsg.textContent += `❌ Failed to upload ${file.name}\n`;
+          }
+        } catch (error) {
+          statusMsg.textContent += `🚫 Error uploading ${file.name}\n`;
         }
-      } catch (error) {
-        statusMsg.textContent = "🚫 Error uploading. Check internet or file type.";
       }
+
+      input.value = ""; // Clear file input
     }
   </script>
 
