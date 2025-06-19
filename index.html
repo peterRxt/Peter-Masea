@@ -113,7 +113,6 @@
       padding-bottom: 60px;
     }
 
-    /* Menu nav styles */
     nav#navLinks {
       display: flex;
       flex-wrap: wrap;
@@ -142,11 +141,7 @@
       font-size: 1.22em;
       text-align: center;
       box-shadow: var(--card-shadow);
-      transition: 
-        background var(--transition), 
-        color var(--transition),
-        transform var(--transition),
-        box-shadow var(--transition);
+      transition: background var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
       position: relative;
       overflow: hidden;
       letter-spacing: 0.5px;
@@ -191,7 +186,6 @@
       transform: scale(0.97);
     }
 
-    /* Responsive for nav */
     @media (max-width: 900px) {
       nav#navLinks {
         gap: 22px;
@@ -202,6 +196,7 @@
         padding: 22px 9px 13px 9px;
       }
     }
+
     @media (max-width: 600px) {
       header {
         height: 75vh;
@@ -219,7 +214,7 @@
       }
     }
 
-    /* Admin Button */
+    /* Floating Admin Button */
     .admin-btn {
       position: fixed;
       bottom: 1.5rem;
@@ -237,6 +232,7 @@
       letter-spacing: 0.7px;
       border: none;
     }
+
     .admin-btn:hover {
       transform: scale(1.07);
       box-shadow: 0 6px 28px 0 rgba(79,172,254,0.19);
@@ -244,7 +240,15 @@
       color: #fff;
     }
 
-    /* Hide audio controls */
+    @media (max-width: 480px) {
+      .admin-btn {
+        font-size: 0.88rem;
+        padding: 0.6rem 1.2rem;
+        bottom: 1rem;
+        right: 1rem;
+      }
+    }
+
     audio {
       display: none;
     }
@@ -272,25 +276,22 @@
     </nav>
   </main>
 
-  <!-- Admin Access Button -->
-  <a href="admin.html" class="admin-btn">
-    🔐 Admin Panel
-  </a>
+  <a href="admin.html" class="admin-btn">🔐 Admin Panel</a>
 
   <script>
     function toggleMode() {
       document.body.classList.toggle('dark-mode');
-      // Optional: persist preference
       if (document.body.classList.contains('dark-mode')) {
         localStorage.setItem('theme', 'dark');
       } else {
         localStorage.setItem('theme', 'light');
       }
     }
-    // On load, prefer saved theme
-    if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
 
-    // Menu data: icon is split from label
+    if(localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+
     const pages = [
       { file: 'Peter.html', label: "Peter's Journey", icon: '👨' },
       { file: 'masea.html', label: "Masea's Story", icon: '👩' },
@@ -326,6 +327,7 @@
             }
           });
         }
+
         nav.appendChild(link);
       }
     });
