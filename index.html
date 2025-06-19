@@ -13,7 +13,9 @@
       --text-light: #333;
       --bg-dark: #121212;
       --text-dark: #f1f1f1;
+      --accent: #ff4081;
     }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -21,10 +23,12 @@
       color: var(--text-light);
       transition: background-color 0.4s, color 0.4s;
     }
+
     .dark-mode {
       background-color: var(--bg-dark);
       color: var(--text-dark);
     }
+
     header {
       background: url('1.jpg') center/cover no-repeat;
       height: 100vh;
@@ -35,52 +39,62 @@
       text-align: center;
       color: white;
     }
+
     header h1 {
-      font-size: 3em;
+      font-size: 3.2em;
       margin-bottom: 0.3em;
       text-shadow: 2px 2px 8px black;
     }
+
     header p {
       font-size: 1.5em;
       margin-bottom: 2em;
       text-shadow: 1px 1px 6px black;
     }
+
     .btn-start {
-      background: #ff4081;
+      background: var(--accent);
       color: white;
-      padding: 12px 24px;
+      padding: 12px 30px;
       border: none;
-      border-radius: 25px;
+      border-radius: 30px;
       font-size: 1.1em;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       transition: background 0.3s;
     }
+
     .btn-start:hover {
       background: #e91e63;
     }
+
     nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
-      margin: 40px 20px;
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
     }
+
     .nav-item {
       text-decoration: none;
       color: inherit;
-      border: 2px solid #ff4081;
-      padding: 14px 24px;
-      border-radius: 10px;
+      border: 2px solid var(--accent);
+      padding: 18px 20px;
+      border-radius: 12px;
       font-weight: bold;
-      transition: all 0.3s;
-      background: rgba(255, 64, 129, 0.1);
+      font-size: 1em;
       text-align: center;
+      background: rgba(255, 64, 129, 0.1);
+      transition: all 0.3s ease;
     }
+
     .nav-item:hover {
-      background: #ff4081;
+      background: var(--accent);
       color: white;
     }
+
     .toggle-darkmode {
       position: fixed;
       top: 20px;
@@ -94,6 +108,7 @@
       font-size: 1.2em;
       z-index: 1000;
     }
+
     audio {
       display: none;
     }
@@ -117,11 +132,11 @@
 
   <main id="chapters">
     <nav id="navLinks">
-      <!-- Story links will load here -->
+      <!-- Dynamic story links will appear here -->
     </nav>
   </main>
 
-  <!-- Floating Admin Panel Button -->
+  <!-- Admin Access Button -->
   <a href="admin.html" style="
       position: fixed;
       bottom: 1.5rem;
@@ -148,14 +163,14 @@
     }
 
     const pages = [
-      { file: 'masea.html', label: '📖 Masea\'s Story' },
       { file: 'Peter.html', label: '👨 Peter\'s Journey' },
+      { file: 'masea.html', label: '👩 Masea\'s Story' },
       { file: 'memories.html', label: '📸 Memories' },
-      { file: 'lessons.html', label: '💡 Lessons' },
-      { file: 'leave.html', label: '❌ Reasons to Leave' },
+      { file: 'lessons.html', label: '💡 Lessons Learned' },
       { file: 'case-of.html', label: '🔍 The Case Of...' },
-      { file: 'closure.html', label: '📖 Closure & Gratitude' },
-      { file: 'kithyoko.html', label: '🏪 Kithyoko Story' }  // 👈 Added
+      { file: 'kithyoko.html', label: '🏪 Kithyoko Story' },
+      { file: 'leave.html', label: '❌ Reasons to Leave' },
+      { file: 'closure.html', label: '📖 Closure & Gratitude' }
     ];
 
     const nav = document.getElementById('navLinks');
