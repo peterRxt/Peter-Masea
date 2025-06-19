@@ -11,17 +11,26 @@
     :root {
       --bg-light: #fff;
       --text-light: #333;
-      --bg-dark: #121212;
+      --bg-dark: #18181c;
       --text-dark: #f1f1f1;
       --accent: #ff4081;
+      --menu-bg: rgba(255,255,255,0.85);
+      --menu-bg-dark: rgba(26,26,30,0.92);
+      --menu-blur: blur(10px);
+      --card-shadow: 0 6px 28px rgba(0,0,0,0.13);
+      --transition: 0.35s cubic-bezier(.4,0,.2,1);
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Segoe UI', 'Poppins', 'Roboto', Arial, sans-serif;
       background-color: var(--bg-light);
       color: var(--text-light);
-      transition: background-color 0.4s, color 0.4s;
+      transition: background-color var(--transition), color var(--transition);
     }
 
     .dark-mode {
@@ -30,85 +39,212 @@
     }
 
     header {
-      background: url('1.jpg') center/cover no-repeat;
+      background: linear-gradient(rgba(24,24,28,0.35),rgba(24,24,28,0.62)), url('1.jpg') center/cover no-repeat;
       height: 100vh;
+      min-height: 540px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
       text-align: center;
       color: white;
+      position: relative;
+      box-shadow: 0 12px 40px rgba(44,44,80,0.09);
     }
 
     header h1 {
-      font-size: 3.2em;
-      margin-bottom: 0.3em;
-      text-shadow: 2px 2px 8px black;
+      font-size: 3.4em;
+      margin-bottom: 0.35em;
+      text-shadow: 2px 2px 18px #0e1d30, 0px 2px 2px #000;
+      font-weight: 800;
+      letter-spacing: 0.03em;
     }
 
     header p {
-      font-size: 1.5em;
-      margin-bottom: 2em;
-      text-shadow: 1px 1px 6px black;
+      font-size: 1.4em;
+      margin-bottom: 2.1em;
+      text-shadow: 1px 2px 10px #000;
+      font-weight: 500;
+      opacity: 0.92;
     }
 
     .btn-start {
-      background: var(--accent);
+      background: linear-gradient(90deg, #ff4081 40%, #fc67fa 100%);
       color: white;
-      padding: 12px 30px;
+      padding: 15px 40px;
       border: none;
-      border-radius: 30px;
-      font-size: 1.1em;
+      border-radius: 40px;
+      font-size: 1.18em;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      transition: background 0.3s;
+      font-weight: 700;
+      box-shadow: 0 4px 24px rgba(255,64,129,0.22);
+      transition: background 0.3s, transform 0.2s;
+      letter-spacing: 1px;
     }
-
     .btn-start:hover {
-      background: #e91e63;
-    }
-
-    nav {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .nav-item {
-      text-decoration: none;
-      color: inherit;
-      border: 2px solid var(--accent);
-      padding: 18px 20px;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 1em;
-      text-align: center;
-      background: rgba(255, 64, 129, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .nav-item:hover {
-      background: var(--accent);
-      color: white;
+      background: linear-gradient(100deg, #e91e63 50%, #b721ff 100%);
+      transform: scale(1.05);
+      box-shadow: 0 6px 32px rgba(255,64,129,0.34);
     }
 
     .toggle-darkmode {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 10px;
-      background: #333;
+      top: 22px;
+      right: 28px;
+      padding: 10px 12px;
+      background: #313348;
       color: white;
       border: none;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 1.2em;
-      z-index: 1000;
+      font-size: 1.3em;
+      box-shadow: 0 2px 12px rgba(32,32,38,0.28);
+      z-index: 1002;
+      transition: background 0.2s;
+    }
+    .toggle-darkmode:hover {
+      background: #ff4081;
+      color: #fff;
+      transform: scale(1.1);
     }
 
+    main {
+      margin-top: -80px;
+      padding-bottom: 60px;
+    }
+
+    /* Menu nav styles */
+    nav#navLinks {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      padding: 55px 16px 0 16px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 220px;
+      min-height: 150px;
+      text-decoration: none;
+      color: var(--accent);
+      background: var(--menu-bg);
+      backdrop-filter: var(--menu-blur);
+      border: none;
+      border-radius: 22px;
+      font-weight: 700;
+      font-size: 1.22em;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      transition: 
+        background var(--transition), 
+        color var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.5px;
+      padding: 34px 16px 20px 16px;
+      cursor: pointer;
+    }
+
+    .dark-mode .nav-item {
+      background: var(--menu-bg-dark);
+      color: #fff;
+      border: 1.5px solid #222;
+    }
+
+    .nav-item:before {
+      content: '';
+      position: absolute;
+      left: -80px;
+      top: -80px;
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle at 50% 50%, var(--accent) 0%, transparent 80%);
+      opacity: 0.08;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .nav-item span {
+      font-size: 1.9em;
+      margin-bottom: 10px;
+      display: block;
+      filter: drop-shadow(0 1px 4px #fff8);
+    }
+
+    .nav-item:hover, .nav-item:focus-visible {
+      background: linear-gradient(120deg, #ff4081 15%, #fc67fa 95%);
+      color: #fff;
+      transform: translateY(-8px) scale(1.045);
+      box-shadow: 0 12px 36px 0 rgba(255,64,129,0.16), 0 4px 24px rgba(44,44,88,0.07);
+    }
+
+    .nav-item:active {
+      transform: scale(0.97);
+    }
+
+    /* Responsive for nav */
+    @media (max-width: 900px) {
+      nav#navLinks {
+        gap: 22px;
+      }
+      .nav-item {
+        min-width: 140px;
+        font-size: 1.06em;
+        padding: 22px 9px 13px 9px;
+      }
+    }
+    @media (max-width: 600px) {
+      header {
+        height: 75vh;
+        min-height: 370px;
+        padding-top: 32px;
+      }
+      .nav-item {
+        min-width: 100px;
+        min-height: 90px;
+        font-size: 0.93em;
+        padding: 14px 5px 8px 5px;
+      }
+      main {
+        margin-top: -46px;
+      }
+    }
+
+    /* Admin Button */
+    .admin-btn {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      padding: 0.72rem 1.7rem;
+      border-radius: 2.2rem;
+      font-weight: bold;
+      font-size: 1.05rem;
+      text-decoration: none;
+      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+      z-index: 999;
+      transition: transform 0.23s, box-shadow 0.2s;
+      letter-spacing: 0.7px;
+      border: none;
+    }
+    .admin-btn:hover {
+      transform: scale(1.07);
+      box-shadow: 0 6px 28px 0 rgba(79,172,254,0.19);
+      background: linear-gradient(120deg, #00f2fe 0%, #4facfe 100%);
+      color: #fff;
+    }
+
+    /* Hide audio controls */
     audio {
       display: none;
     }
@@ -124,7 +260,7 @@
     </button>
   </header>
 
-  <button class="toggle-darkmode" onclick="toggleMode()">🌓</button>
+  <button class="toggle-darkmode" onclick="toggleMode()" aria-label="Toggle dark mode">🌓</button>
 
   <audio autoplay loop>
     <source src="soft-love-theme.mp3" type="audio/mpeg" />
@@ -137,54 +273,47 @@
   </main>
 
   <!-- Admin Access Button -->
-  <a href="admin.html" style="
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      color: white;
-      padding: 0.65rem 1.4rem;
-      border-radius: 1.8rem;
-      font-weight: bold;
-      font-size: 0.95rem;
-      text-decoration: none;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-      z-index: 999;
-      transition: transform 0.2s;
-    "
-    onmouseover="this.style.transform='scale(1.05)'"
-    onmouseout="this.style.transform='scale(1)'">
+  <a href="admin.html" class="admin-btn">
     🔐 Admin Panel
   </a>
 
   <script>
     function toggleMode() {
       document.body.classList.toggle('dark-mode');
+      // Optional: persist preference
+      if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
     }
+    // On load, prefer saved theme
+    if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
 
+    // Menu data: icon is split from label
     const pages = [
-      { file: 'Peter.html', label: '👨 Peter\'s Journey' },
-      { file: 'masea.html', label: '👩 Masea\'s Story' },
-      { file: 'memories.html', label: '📸 Memories' },
-      { file: 'lessons.html', label: '💡 Lessons Learned' },
-      { file: 'case-of.html', label: '🔍 The Case Of...' },
-      { file: 'kithyoko.html', label: '🏪 Kithyoko Story' },
-      { file: 'leave.html', label: '❌ Reasons to Leave' },
-      { file: 'closure.html', label: '📖 Closure & Gratitude' }
+      { file: 'Peter.html', label: "Peter's Journey", icon: '👨' },
+      { file: 'masea.html', label: "Masea's Story", icon: '👩' },
+      { file: 'memories.html', label: 'Memories', icon: '📸' },
+      { file: 'lessons.html', label: 'Lessons Learned', icon: '💡' },
+      { file: 'case-of.html', label: 'The Case Of...', icon: '🔍' },
+      { file: 'kithyoko.html', label: 'Kithyoko Story', icon: '🏪' },
+      { file: 'leave.html', label: 'Reasons to Leave', icon: '❌' },
+      { file: 'closure.html', label: 'Closure & Gratitude', icon: '📖' }
     ];
 
     const nav = document.getElementById('navLinks');
     const password = 'digoitha';
 
-    pages.forEach(({ file, label }) => {
+    pages.forEach(({ file, label, icon }) => {
       const isHidden = localStorage.getItem(file + '_hidden') === 'true';
       const isProtected = localStorage.getItem(file + '_protected') === 'true';
 
       if (!isHidden) {
         const link = document.createElement('a');
-        link.textContent = label;
-        link.href = file;
         link.className = 'nav-item';
+        link.href = file;
+        link.innerHTML = `<span>${icon}</span>${label}`;
 
         if (isProtected) {
           link.addEventListener('click', (e) => {
@@ -192,12 +321,11 @@
             const entered = prompt('🔐 Enter password to access this section:');
             if (entered === password) {
               window.location.href = file;
-            } else {
+            } else if (entered !== null) {
               alert('❌ Incorrect password.');
             }
           });
         }
-
         nav.appendChild(link);
       }
     });
