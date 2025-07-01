@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio & Whatsapp Chats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-light: #5c7cfa;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --dark: #121212;
+            --darker: #0d0d0d;
+            --light: #f8f9fa;
+            --gray: #2d2d2d;
+            --card-bg: #1e1e1e;
+            --card-hover: #2a2a2a;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --error: #f87171;
+            --text-light: #e0e0e0;
+            --text-gray: #a0a0a0;
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            padding: 30px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3);
+        }
+
+        .logo-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent), var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-gray);
+            font-size: 1.15rem;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.7;
+            padding: 0 15px;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 500;
+            background: rgba(72, 149, 239, 0.15);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .divider {
+            height: 4px;
+            width: 100px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            margin: 30px auto;
+            border-radius: 10px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin: 40px 0 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 30px;
+            width: 5px;
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        .section-title i {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(67, 97, 238, 0.25);
+            border-color: rgba(67, 97, 238, 0.3);
+        }
+
+        .card-header {
+            padding: 22px;
+            background: rgba(67, 97, 238, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-header i {
+            font-size: 1.8rem;
+            color: var(--accent);
+            width: 45px;
+            height: 45px;
+            background: rgba(72, 149, 239, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        .audio-player-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .audio-name {
+            font-weight: 500;
+            color: var(--text-light);
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .audio-name i {
+            color: var(--accent);
+        }
+
+        .audio-player {
+            width: 100;
+            background: var(--gray);
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .audio-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .time-display {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            display: flex;
+            gap: 4px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .progress-container {
+            background: #3a3a3a;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            margin: 18px 0;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.1s linear;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: white;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+
+        .progress-container:hover .progress-bar::after {
+            opacity: 1;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .play-btn:hover {
+            background: var(--primary-light);
+            transform: scale(1.08);
+        }
+
+        .play-btn i {
+            color: white;
+            font-size: 1.3rem;
+            position: relative;
+            left: 1px;
+        }
+
+        .secondary-controls {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 140px;
+        }
+
+        .volume-icon {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #3a3a3a;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 0 5px rgba(72, 149, 239, 0.8);
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: var(--primary-light);
+        }
+
+        .download-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            
+        }
+
+        .download-btn:hover {
+            color: var(--accent);
+        }
+
+        .chat-card .card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .chat-description {
+            color: var(--text-gray);
+            line-height: 1.7;
+            flex-grow: 1;
+            font-size: 1.05rem;
+        }
+
+        .chat-meta {
+            display: flex;
+            gap: 20px;
+            color: #888;
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 15px;
+            border-radius: 50px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 25px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn i {
+            margin-right: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .file-info {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 18px;
+            border-radius: 14px;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-gray);
+        }
+
+        .info-value {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .pulse {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            margin-left: 12px;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 0 0 rgba(72, 149, 239, 0.7);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.9);
+                box-shadow: 0 0 0 0 rgba(72, 149, 239, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 12px rgba(72, 149, 239, 0);
+            }
+            100% {
+                transform: scale(0.9);
+                box-shadow: 0 0 0 0 rgba(72, 149, 239, 0);
+            }
+        }
+
+        /* Waveform visualization */
+        .waveform {
+            display: flex;
+            align-items: flex-end;
+            height: 50px;
+            gap: 3px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: height 0.3s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+                margin: 35px 0 20px;
+            }
+            
+            .secondary-controls {
+                gap: 20px;
+            }
+            
+            .volume-control {
+                width: 120px;
+            }
+            
+            .play-btn {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+            }
+            
+            .card-header {
+                padding: 18px;
+            }
+            
+            .card-body {
+                padding: 20px;
+            }
+            
+            .audio-player {
+                padding: 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .secondary-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+           
+                   
+             
+            </div>
+            <h1>Audio & Chat</h1>
+            <p class="subtitle">
+                <span class="highlight">JUDGEMENT DAY: May 7, 2025</span><br>
+                12:00pm to 7:00pm. Attendance: <span class="highlight">Teresia</span>, 
+                <span class="highlight">Gitau Snr</span>, <span class="highlight">Gitau Junior</span> & 
+                <span class="highlight">Vincencia</span>. Location: <span class="highlight">Matuu</span>
+            </p>
+            <div class="divider"></div>
+        </header>
+
+        <main>
+            <div class="section-title">
+                <i class="fas fa-headphones"></i>
+                <h2>Audio Recordings</h2>
+                <span class="pulse"></span>
+            </div>
+            <div class="cards-container">
+                <div class="card audio-card">
+                    <div class="card-header">
+                        <i class="fas fa-file-audio"></i>
+                        <div class="card-title">CLICK TO PLAY</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="audio-player-container">
+                            <div class="audio-name">
+                                <i class="fas fa-microphone"></i> audio1.m4a
+                            </div>
+                            
+                            <div class="audio-player">
+                                <div class="audio-info">
+                                    <div class="time-display">
+                                        <span class="current-time">0:00</span> / 
+                                        <span class="duration">0:00</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Waveform visualization -->
+                                <div class="waveform" id="waveform1"></div>
+                                
+                                <div class="progress-container">
+                                    <div class="progress-bar"></div>
+                                </div>
+                                
+                                <div class="controls">
+                                    <div class="play-btn" data-audio="audio1">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    
+                                    <div class="secondary-controls">
+                                        <div class="volume-control">
+                                            <i class="fas fa-volume-up volume-icon"></i>
+                                            <input type="range" class="volume-slider" min="0" max="100" value="80">
+                                        </div>
+                                        
+                                        <
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="file-info">
+                                <div class="info-item">
+                                    <span class="info-label">Format:</span>
+                                    <span class="info-value">M4A (AAC Audio)</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Size:</span>
+                                    <span class="info-value">8.4 MB</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Duration:</span>
+                                    <span class="info-value">15:42</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Recorded:</span>
+                                    <span class="info-value">May 7, 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card audio-card">
+                    <div class="card-header">
+                        <i class="fas fa-file-audio"></i>
+                        <div class="card-title">CLICK TO PLAY</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="audio-player-container">
+                            <div class="audio-name">
+                                <i class="fas fa-microphone"></i> audio2.m4a
+                            </div>
+                            
+                            <div class="audio-player">
+                                <div class="audio-info">
+                                    <div class="time-display">
+                                        <span class="current-time">0:00</span> / 
+                                        <span class="duration">0:00</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Waveform visualization -->
+                                <div class="waveform" id="waveform2"></div>
+                                
+                                <div class="progress-container">
+                                    <div class="progress-bar"></div>
+                                </div>
+                                
+                                <div class="controls">
+                                    <div class="play-btn" data-audio="audio2">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    
+                                    <div class="secondary-controls">
+                                        <div class="volume-control">
+                                            <i class="fas fa-volume-up volume-icon"></i>
+                                            <input type="range" class="volume-slider" min="0" max="100" value="80">
+                                        </div>
+                                        
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="file-info">
+                                <div class="info-item">
+                                    <span class="info-label">Format:</span>
+                                    <span class="info-value">M4A (AAC Audio)</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Size:</span>
+                                    <span class="info-value">6.7 MB</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Duration:</span>
+                                    <span class="info-value">12:18</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Recorded:</span>
+                                    <span class="info-value">May 7 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <i class="fas fa-comments"></i>
+                <h2>Chat Logs</h2>
+            </div>
+            <div class="cards-container">
+                <div class="card chat-card">
+                    <div class="card-header">
+                        <i class="fas fa-comment-dots"></i>
+                        <div class="card-title">GSA Conversation</div>
+                    </div>
+                    <div class="card-body">
+                        <p class="chat-description">
+                            
+                        
+                        <div class="chat-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>May 7, 2024</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>24 min duration</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <span></span>
+                            </div>
+                        </div>
+                        
+                        <a href="gsa_chat.html" class="btn">
+                            <i class="fas fa-external-link-alt"></i> View Full Chat Log
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card chat-card">
+                    <div class="card-header">
+                        <i class="fas fa-comment-dots"></i>
+                        <div class="card-title">Matuu Conversation</div>
+                    </div>
+                    <div class="card-body">
+                  
+                            
+                        
+                        <div class="chat-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>April 28, 2024</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>18 min duration</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <span></span>
+                            </div>
+                        </div>
+                        
+                        <a href="matuu_chat.html" class="btn">
+                            <i class="fas fa-external-link-alt"></i> View Full Chat Log
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p> 2025 |by Peter</p>
+        </footer>
+    </div>
+    
+    <!-- Hidden audio elements -->
+    <audio id="audio1" src="audio1.m4a"></audio>
+    <audio id="audio2" src="audio2.m4a"></audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create waveform visualizations
+            function createWaveform(containerId, barCount) {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                for (let i = 0; i < barCount; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'wave-bar';
+                    // Random heights for visual effect
+                    const height = Math.floor(Math.random() * 40) + 10;
+                    bar.style.height = `${height}px`;
+                    // Animate the appearance
+                    bar.style.opacity = '0';
+                    bar.style.transform = 'scaleY(0)';
+                    setTimeout(() => {
+                        bar.style.transition = 'all 0.5s ease';
+                        bar.style.opacity = '1';
+                        bar.style.transform = 'scaleY(1)';
+                    }, i * 20);
+                    container.appendChild(bar);
+                }
+            }
+            
+            createWaveform('waveform1', 70);
+            createWaveform('waveform2', 70);
+            
+            // Audio players functionality
+            const players = {
+                audio1: {
+                    element: document.getElementById('audio1'),
+                    playBtn: document.querySelector('[data-audio="audio1"]'),
+                    progressBar: document.querySelector('[data-audio="audio1"]').closest('.audio-player').querySelector('.progress-bar'),
+                    currentTime: document.querySelector('[data-audio="audio1"]').closest('.audio-player').querySelector('.current-time'),
+                    duration: document.querySelector('[data-audio="audio1"]').closest('.audio-player').querySelector('.duration'),
+                    volumeSlider: document.querySelector('[data-audio="audio1"]').closest('.audio-player').querySelector('.volume-slider'),
+                    volumeIcon: document.querySelector('[data-audio="audio1"]').closest('.audio-player').querySelector('.volume-icon'),
+                    progressContainer: document.querySelector('[data-audio="audio1"]').closest('.audio-player').querySelector('.progress-container'),
+                    waveform: document.getElementById('waveform1')
+                },
+                audio2: {
+                    element: document.getElementById('audio2'),
+                    playBtn: document.querySelector('[data-audio="audio2"]'),
+                    progressBar: document.querySelector('[data-audio="audio2"]').closest('.audio-player').querySelector('.progress-bar'),
+                    currentTime: document.querySelector('[data-audio="audio2"]').closest('.audio-player').querySelector('.current-time'),
+                    duration: document.querySelector('[data-audio="audio2"]').closest('.audio-player').querySelector('.duration'),
+                    volumeSlider: document.querySelector('[data-audio="audio2"]').closest('.audio-player').querySelector('.volume-slider'),
+                    volumeIcon: document.querySelector('[data-audio="audio2"]').closest('.audio-player').querySelector('.volume-icon'),
+                    progressContainer: document.querySelector('[data-audio="audio2"]').closest('.audio-player').querySelector('.progress-container'),
+                    waveform: document.getElementById('waveform2')
+                }
+            };
+            
+            // Format time for display (MM:SS)
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+            
+            // Initialize players
+            for (const playerKey in players) {
+                const player = players[playerKey];
+                
+                // Set initial volume
+                player.element.volume = player.volumeSlider.value / 100;
+                
+                // Set duration display
+                player.element.addEventListener('loadedmetadata', function() {
+                    player.duration.textContent = formatTime(player.element.duration);
+                });
+                
+                // Set initial duration for demo purposes
+                player.duration.textContent = playerKey === 'audio1' ? '15:42' : '12:18';
+                
+                // Play/Pause functionality
+                player.playBtn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    
+                    if (player.element.paused) {
+                        player.element.play();
+                        icon.classList.remove('fa-play');
+                        icon.classList.add('fa-pause');
+                    } else {
+                        player.element.pause();
+                        icon.classList.remove('fa-pause');
+                        icon.classList.add('fa-play');
+                    }
+                });
+                
+                // Update progress bar and time during playback
+                player.element.addEventListener('timeupdate', function() {
+                    const percent = (player.element.currentTime / player.element.duration) * 100;
+                    player.progressBar.style.width = `${percent}%`;
+                    player.currentTime.textContent = formatTime(player.element.currentTime);
+                    
+                    // Animate waveform
+                    const bars = player.waveform.querySelectorAll('.wave-bar');
+                    bars.forEach((bar, index) => {
+                        const barPos = index / bars.length;
+                        if (barPos * 100 <= percent) {
+                            const newHeight = Math.floor(Math.random() * 40) + 10;
+                            bar.style.height = `${newHeight}px`;
+                        }
+                    });
+                });
+                
+                // End of playback
+                player.element.addEventListener('ended', function() {
+                    player.playBtn.querySelector('i').classList.remove('fa-pause');
+                    player.playBtn.querySelector('i').classList.add('fa-play');
+                    player.progressBar.style.width = '0%';
+                });
+                
+                // Volume control
+                player.volumeSlider.addEventListener('input', function() {
+                    player.element.volume = this.value / 100;
+                    
+                    // Update volume icon
+                    const volume = this.value;
+                    if (volume >= 50) {
+                        player.volumeIcon.classList.remove('fa-volume-down', 'fa-volume-off');
+                        player.volumeIcon.classList.add('fa-volume-up');
+                    } else if (volume > 0) {
+                        player.volumeIcon.classList.remove('fa-volume-up', 'fa-volume-off');
+                        player.volumeIcon.classList.add('fa-volume-down');
+                    } else {
+                        player.volumeIcon.classList.remove('fa-volume-up', 'fa-volume-down');
+                        player.volumeIcon.classList.add('fa-volume-off');
+                    }
+                });
+                
+                // Seek functionality
+                player.progressContainer.addEventListener('click', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const pos = (e.clientX - rect.left) / rect.width;
+                    player.element.currentTime = pos * player.element.duration;
+                });
+            }
+            
+            // Simulate pulse animation for active section
+            const pulseDot = document.querySelector('.pulse');
+            setInterval(() => {
+                pulseDot.style.animation = 'none';
+                setTimeout(() => {
+                    pulseDot.style.animation = 'pulse 1.5s infinite';
+                }, 10);
+            }, 5000);
+            
+            // Download button functionality
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.audio-card');
+                    const title = card.querySelector('.card-title').textContent;
+                    alert(`Download initiated for: ${title}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
