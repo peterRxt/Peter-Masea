@@ -64,6 +64,26 @@
       overflow: hidden;
     }
 
+    /* Cover image style */
+    .cover-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      opacity: 0.82;
+      pointer-events: none;
+      transition: opacity 0.5s;
+    }
+
+    .dark-mode .cover-img {
+      opacity: 0.32;
+      filter: brightness(0.7) grayscale(0.10);
+    }
+
     .header-content {
       max-width: 800px;
       z-index: 2;
@@ -76,6 +96,7 @@
       width: 100%;
       height: 100%;
       background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.5) 100%);
+      z-index: 1;
     }
 
     header h1 {
@@ -431,6 +452,8 @@
 </head>
 <body>
   <header>
+    <!-- Cover image as background -->
+    <img src="1.jpg" alt="Our Love Story Cover" class="cover-img" />
     <div class="header-overlay"></div>
     <div class="header-content">
       <h1>Our Love Story</h1>
@@ -469,7 +492,7 @@
         <h2>About This Project</h2>
       </div>
       <div class="about-content">
-        <p>This digital storybook is a heartfelt collection of memories, reflections, and lessons from Peter and Masea's journey together. Each chapter provides a unique perspective on their relationship, capturing both the beautiful moments and the challenging ones.</p>
+        <p>This digital storybook is a heartfelt collection of memories, reflections, and lessons from Peter and Masea's journey together. Each chapter provides a unique perspective on their relationship and the emotions they experienced.</p>
         <p>Created as a therapeutic exercise and a tribute to what they shared, this project aims to preserve the authenticity of their experience while providing closure and insight.</p>
         <p>All content is protected and requires authorization for access to maintain privacy and respect for both individuals involved.</p>
       </div>
