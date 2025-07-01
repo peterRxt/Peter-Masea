@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Our Story - Landing Page</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="book-icon.png" type="image/png"/>
-  <meta name="description" content="A real story of love, heartbreak, and memory by Peter & Masea. Told in chapters with images and emotion."/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Love Story | Peter & Masea</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+  <meta name="description" content="A real story of love, heartbreak, and memory by Peter & Masea. Told in chapters with images and emotion.">
   <style>
     :root {
       --bg-light: #fff;
@@ -19,6 +18,14 @@
       --menu-blur: blur(10px);
       --card-shadow: 0 6px 28px rgba(0,0,0,0.13);
       --transition: 0.35s cubic-bezier(.4,0,.2,1);
+      --gradient: linear-gradient(135deg, #ff4081, #fc67fa);
+      --gradient-hover: linear-gradient(135deg, #e91e63, #b721ff);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     html {
@@ -26,11 +33,12 @@
     }
 
     body {
-      margin: 0;
       font-family: 'Segoe UI', 'Poppins', 'Roboto', Arial, sans-serif;
       background-color: var(--bg-light);
       color: var(--text-light);
       transition: background-color var(--transition), color var(--transition);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
     .dark-mode {
@@ -38,8 +46,10 @@
       color: var(--text-dark);
     }
 
+    /* Header Styles */
     header {
-      background: linear-gradient(rgba(24,24,28,0.35),rgba(24,24,28,0.62)), url('1.jpg') center/cover no-repeat;
+      background: linear-gradient(rgba(24,24,28,0.35), rgba(24,24,28,0.62)), 
+                  linear-gradient(45deg, #2c3e50, #4a235a);
       height: 100vh;
       min-height: 540px;
       display: flex;
@@ -50,6 +60,22 @@
       color: white;
       position: relative;
       box-shadow: 0 12px 40px rgba(44,44,80,0.09);
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .header-content {
+      max-width: 800px;
+      z-index: 2;
+    }
+
+    .header-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.5) 100%);
     }
 
     header h1 {
@@ -58,6 +84,7 @@
       text-shadow: 2px 2px 18px #0e1d30, 0px 2px 2px #000;
       font-weight: 800;
       letter-spacing: 0.03em;
+      animation: fadeInDown 1s ease-out;
     }
 
     header p {
@@ -66,27 +93,48 @@
       text-shadow: 1px 2px 10px #000;
       font-weight: 500;
       opacity: 0.92;
+      animation: fadeInUp 1.2s ease-out;
     }
 
-    .btn-start {
-      background: linear-gradient(90deg, #ff4081 40%, #fc67fa 100%);
-      color: white;
+    /* Buttons */
+    .btn {
+      display: inline-block;
       padding: 15px 40px;
       border: none;
       border-radius: 40px;
       font-size: 1.18em;
       cursor: pointer;
       font-weight: 700;
-      box-shadow: 0 4px 24px rgba(255,64,129,0.22);
-      transition: background 0.3s, transform 0.2s;
+      text-decoration: none;
+      transition: all 0.3s ease;
       letter-spacing: 1px;
+      text-align: center;
     }
-    .btn-start:hover {
-      background: linear-gradient(100deg, #e91e63 50%, #b721ff 100%);
+
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
+      box-shadow: 0 4px 24px rgba(255,64,129,0.22);
+    }
+
+    .btn-primary:hover {
+      background: var(--gradient-hover);
       transform: scale(1.05);
       box-shadow: 0 6px 32px rgba(255,64,129,0.34);
     }
 
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-3px);
+    }
+
+    /* Theme Toggle */
     .toggle-darkmode {
       position: fixed;
       top: 22px;
@@ -100,28 +148,62 @@
       font-size: 1.3em;
       box-shadow: 0 2px 12px rgba(32,32,38,0.28);
       z-index: 1002;
-      transition: background 0.2s;
+      transition: all 0.3s ease;
     }
+    
     .toggle-darkmode:hover {
       background: #ff4081;
       color: #fff;
-      transform: scale(1.1);
+      transform: scale(1.1) rotate(20deg);
     }
 
+    /* Main Content */
     main {
-      margin-top: -80px;
-      padding-bottom: 60px;
+      padding: 80px 20px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    nav#navLinks {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 32px;
-      padding: 55px 16px 0 16px;
-      max-width: 1100px;
-      margin: 0 auto;
+    #chapters {
+      padding-top: 40px;
+    }
+
+    section {
+      margin-bottom: 60px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-header h2 {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+      color: var(--accent);
       position: relative;
+      display: inline-block;
+    }
+
+    .section-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
+
+    /* Navigation Cards */
+    .nav-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 32px;
+      margin: 0 auto;
+      max-width: 1100px;
     }
 
     .nav-item {
@@ -129,8 +211,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-width: 220px;
-      min-height: 150px;
       text-decoration: none;
       color: var(--accent);
       background: var(--menu-bg);
@@ -141,11 +221,12 @@
       font-size: 1.22em;
       text-align: center;
       box-shadow: var(--card-shadow);
-      transition: background var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+      transition: all var(--transition);
       position: relative;
       overflow: hidden;
       letter-spacing: 0.5px;
-      padding: 34px 16px 20px 16px;
+      padding: 34px 16px 20px;
+      min-height: 180px;
       cursor: pointer;
     }
 
@@ -155,7 +236,7 @@
       border: 1.5px solid #222;
     }
 
-    .nav-item:before {
+    .nav-item::before {
       content: '';
       position: absolute;
       left: -80px;
@@ -166,60 +247,42 @@
       opacity: 0.08;
       z-index: 0;
       pointer-events: none;
+      transition: opacity 0.3s;
     }
 
     .nav-item span {
-      font-size: 1.9em;
-      margin-bottom: 10px;
+      font-size: 2.5em;
+      margin-bottom: 15px;
       display: block;
-      filter: drop-shadow(0 1px 4px #fff8);
+      transition: transform 0.3s;
     }
 
-    .nav-item:hover, .nav-item:focus-visible {
-      background: linear-gradient(120deg, #ff4081 15%, #fc67fa 95%);
+    .nav-item:hover, 
+    .nav-item:focus-visible {
+      background: var(--gradient);
       color: #fff;
       transform: translateY(-8px) scale(1.045);
       box-shadow: 0 12px 36px 0 rgba(255,64,129,0.16), 0 4px 24px rgba(44,44,88,0.07);
+    }
+
+    .nav-item:hover::before {
+      opacity: 0.15;
+    }
+
+    .nav-item:hover span {
+      transform: scale(1.2);
     }
 
     .nav-item:active {
       transform: scale(0.97);
     }
 
-    @media (max-width: 900px) {
-      nav#navLinks {
-        gap: 22px;
-      }
-      .nav-item {
-        min-width: 140px;
-        font-size: 1.06em;
-        padding: 22px 9px 13px 9px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      header {
-        height: 75vh;
-        min-height: 370px;
-        padding-top: 32px;
-      }
-      .nav-item {
-        min-width: 100px;
-        min-height: 90px;
-        font-size: 0.93em;
-        padding: 14px 5px 8px 5px;
-      }
-      main {
-        margin-top: -46px;
-      }
-    }
-
-    /* Floating Admin Button */
+    /* Admin Button */
     .admin-btn {
       position: fixed;
       bottom: 1.5rem;
       right: 1.5rem;
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      background: var(--gradient);
       color: white;
       padding: 0.72rem 1.7rem;
       border-radius: 2.2rem;
@@ -228,57 +291,203 @@
       text-decoration: none;
       box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
       z-index: 999;
-      transition: transform 0.23s, box-shadow 0.2s;
+      transition: all 0.3s ease;
       letter-spacing: 0.7px;
       border: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .admin-btn:hover {
       transform: scale(1.07);
-      box-shadow: 0 6px 28px 0 rgba(79,172,254,0.19);
-      background: linear-gradient(120deg, #00f2fe 0%, #4facfe 100%);
-      color: #fff;
+      box-shadow: 0 6px 28px 0 rgba(255,64,129,0.34);
+      background: var(--gradient-hover);
     }
 
-    @media (max-width: 480px) {
+    /* Footer */
+    footer {
+      background: linear-gradient(to right, #2c3e50, #4a235a);
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-content p {
+      margin: 10px 0;
+    }
+
+    .heart {
+      color: var(--accent);
+      animation: pulse 1.5s infinite;
+      display: inline-block;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 900px) {
+      .nav-container {
+        gap: 22px;
+      }
+      .nav-item {
+        min-width: 140px;
+        font-size: 1.06em;
+        padding: 22px 9px 13px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.8em;
+      }
+      header p {
+        font-size: 1.2em;
+      }
+      .section-header h2 {
+        font-size: 2em;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        height: 85vh;
+        min-height: 370px;
+      }
+      header h1 {
+        font-size: 2.2em;
+      }
+      header p {
+        font-size: 1.1em;
+        margin-bottom: 1.5em;
+      }
+      .nav-item {
+        min-height: 140px;
+        font-size: 0.93em;
+        padding: 14px 5px 8px;
+      }
+      .nav-item span {
+        font-size: 2em;
+      }
+      .btn {
+        padding: 12px 30px;
+        font-size: 1em;
+      }
       .admin-btn {
         font-size: 0.88rem;
         padding: 0.6rem 1.2rem;
         bottom: 1rem;
         right: 1rem;
       }
+      .nav-container {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 20px;
+      }
     }
 
-    audio {
-      display: none;
+    @media (max-width: 480px) {
+      .nav-container {
+        grid-template-columns: 1fr 1fr;
+      }
+      .toggle-darkmode {
+        top: 15px;
+        right: 15px;
+      }
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>Our Love Story</h1>
-    <p>Peter & Masea's Journey</p>
-    <button class="btn-start" onclick="document.getElementById('chapters').scrollIntoView({ behavior: 'smooth' })">
-      Begin Reading
-    </button>
+    <div class="header-overlay"></div>
+    <div class="header-content">
+      <h1>Our Love Story</h1>
+      <p>Peter & Masea's Journey</p>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="document.getElementById('chapters').scrollIntoView({ behavior: 'smooth' })">
+          Begin Reading
+        </button>
+        <button class="btn btn-secondary" onclick="toggleMusic()" style="margin-left: 15px;">
+          ♫ Toggle Music
+        </button>
+      </div>
+    </div>
   </header>
 
   <button class="toggle-darkmode" onclick="toggleMode()" aria-label="Toggle dark mode">🌓</button>
 
-  <audio autoplay loop>
-    <source src="soft-love-theme.mp3" type="audio/mpeg" />
+  <audio id="bg-music" loop>
+    <source src="https://assets.codepen.io/1468070/soft-piano.mp3" type="audio/mpeg">
   </audio>
 
-  <main id="chapters">
-    <nav id="navLinks">
-      <!-- Dynamic story links will appear here -->
-    </nav>
+  <main>
+    <section id="chapters">
+      <div class="section-header">
+        <h2>Our Story Chapters</h2>
+        <p>Explore the journey through different perspectives and moments</p>
+      </div>
+      
+      <div class="nav-container" id="navLinks">
+        <!-- Dynamic story links will appear here -->
+      </div>
+    </section>
+    
+    <section id="about">
+      <div class="section-header">
+        <h2>About This Project</h2>
+      </div>
+      <div class="about-content">
+        <p>This digital storybook is a heartfelt collection of memories, reflections, and lessons from Peter and Masea's journey together. Each chapter provides a unique perspective on their relationship, capturing both the beautiful moments and the challenging ones.</p>
+        <p>Created as a therapeutic exercise and a tribute to what they shared, this project aims to preserve the authenticity of their experience while providing closure and insight.</p>
+        <p>All content is protected and requires authorization for access to maintain privacy and respect for both individuals involved.</p>
+      </div>
+    </section>
   </main>
 
   <a href="admin.html" class="admin-btn">🔐 Admin Panel</a>
 
+  <footer>
+    <div class="footer-content">
+      <p>Created with <span class="heart">❤️</span> by Peter & Masea</p>
+      <p>© 2023 Our Love Story Project. All rights reserved.</p>
+      <p>Designed for GitHub hosting with privacy and security in mind</p>
+    </div>
+  </footer>
+
   <script>
+    // Theme and mode functionality
     function toggleMode() {
       document.body.classList.toggle('dark-mode');
       if (document.body.classList.contains('dark-mode')) {
@@ -288,27 +497,54 @@
       }
     }
 
+    // Check for saved theme preference
     if(localStorage.getItem('theme') === 'dark') {
       document.body.classList.add('dark-mode');
     }
 
+    // Background music control
+    const bgMusic = document.getElementById('bg-music');
+    let musicPlaying = false;
+    
+    function toggleMusic() {
+      if (musicPlaying) {
+        bgMusic.pause();
+        musicPlaying = false;
+      } else {
+        bgMusic.play().catch(e => console.log("Autoplay prevented: ", e));
+        musicPlaying = true;
+      }
+    }
+
+    // Enable music after user interaction
+    document.addEventListener('click', function initMusic() {
+      bgMusic.volume = 0.3;
+      bgMusic.play().then(() => {
+        musicPlaying = true;
+      }).catch(e => {
+        console.log("Autoplay prevented, user interaction needed");
+      });
+      document.removeEventListener('click', initMusic);
+    }, { once: true });
+
+    // Story pages data
     const pages = [
-      { file: 'Peter.html', label: "Peter's Journey", icon: '👨' },
-      { file: 'masea.html', label: "Masea's Story", icon: '👩' },
-      { file: 'memories.html', label: 'Memories', icon: '📸' },
-      { file: 'lessons.html', label: 'Lessons Learned', icon: '💡' },
-      { file: 'case-of.html', label: 'The Case Of...', icon: '🔍' },
-      { file: 'kithyoko.html', label: 'Kithyoko Story', icon: '🏪' },
-      { file: 'Whatsapp.html', label: 'Reasons to Leave', icon: '❌' },
-      { file: 'closure.html', label: 'Closure & Gratitude', icon: '📖' },
-  { file: 'whatsApp.html', label: 'Audios & Chats', icon: '💬' },
-  { file: 'reflections.html', label: 'Reflections', icon: '🪞' }
+      { file: 'Peter.html', label: "Peter's Journey", icon: '👨', description: "Peter's perspective on the relationship" },
+      { file: 'masea.html', label: "Masea's Story", icon: '👩', description: "Masea's experiences and feelings" },
+      { file: 'memories.html', label: 'Memories', icon: '📸', description: "Shared moments and special memories" },
+      { file: 'lessons.html', label: 'Lessons Learned', icon: '💡', description: "Insights gained from the relationship" },
+      { file: 'case-of.html', label: 'The Case Of...', icon: '🔍', description: "Analysis of key moments and decisions" },
+      { file: 'kithyoko.html', label: 'Kithyoko Story', icon: '🏪', description: "A special place in their journey" },
+      { file: 'whatsapp.html', label: 'Reasons to Leave', icon: '❌', description: "Understanding why things ended" },
+      { file: 'closure.html', label: 'Closure & Gratitude', icon: '📖', description: "Finding peace and expressing thanks" },
+      { file: 'reflections.html', label: 'Reflections', icon: '🪞', description: "Looking back with wisdom" }
     ];
 
+    // Generate navigation links
     const nav = document.getElementById('navLinks');
     const password = 'digoitha';
 
-    pages.forEach(({ file, label, icon }) => {
+    pages.forEach(({ file, label, icon, description }) => {
       const isHidden = localStorage.getItem(file + '_hidden') === 'true';
       const isProtected = localStorage.getItem(file + '_protected') === 'true';
 
@@ -316,7 +552,7 @@
         const link = document.createElement('a');
         link.className = 'nav-item';
         link.href = file;
-        link.innerHTML = `<span>${icon}</span>${label}`;
+        link.innerHTML = `<span>${icon}</span>${label}<p class="desc">${description}</p>`;
 
         if (isProtected) {
           link.addEventListener('click', (e) => {
@@ -333,7 +569,11 @@
         nav.appendChild(link);
       }
     });
-  </script>
 
+    // Simulate loading animation
+    window.addEventListener('load', function() {
+      document.body.classList.add('loaded');
+    });
+  </script>
 </body>
 </html>
