@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Love Story | Peter & Masea</title>
+  <title>Our Story | Peter & Masea</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
   <meta name="description" content="A real story of love, heartbreak, and memory by Peter & Masea. Told in chapters with images and emotion.">
   <style>
@@ -62,6 +62,49 @@
       box-shadow: 0 12px 40px rgba(44,44,80,0.09);
       padding: 20px;
       overflow: hidden;
+      z-index: 10;
+      transition: background 0.4s, box-shadow 0.4s, opacity 0.4s;
+    }
+
+    /* Sticky header when scrolled */
+    header.sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 110px;
+      min-height: 0;
+      box-shadow: 0 6px 24px rgba(44,44,80,0.12);
+      z-index: 1000;
+      padding: 0 20px;
+      justify-content: flex-end;
+      align-items: center;
+      background: linear-gradient(rgba(24,24,28,0.85), rgba(24,24,28,0.92)), 
+                  linear-gradient(45deg, #2c3e50, #4a235a);
+      transition: background 0.4s, box-shadow 0.4s, opacity 0.4s;
+    }
+    header.sticky .cover-img,
+    header.sticky .header-overlay {
+      display: none;
+    }
+    header.sticky .header-content {
+      max-width: none;
+      margin: 0 auto;
+      padding: 0;
+    }
+    header.sticky h1,
+    header.sticky p {
+      display: none;
+    }
+    header.sticky .btn-group {
+      margin-top: 0;
+    }
+
+    /* Placeholder for sticky header to avoid jump */
+    #header-placeholder {
+      display: none;
+      width: 100%;
+      height: 110px;
     }
 
     /* Cover image style */
@@ -87,6 +130,7 @@
     .header-content {
       max-width: 800px;
       z-index: 2;
+      transition: all 0.4s;
     }
 
     .header-overlay {
@@ -106,6 +150,7 @@
       font-weight: 800;
       letter-spacing: 0.03em;
       animation: fadeInDown 1s ease-out;
+      transition: font-size 0.4s;
     }
 
     header p {
@@ -136,12 +181,33 @@
       background: var(--gradient);
       color: white;
       box-shadow: 0 4px 24px rgba(255,64,129,0.22);
+      /* Enhancement for visibility */
+      font-size: 1.35em;
+      padding: 19px 52px;
+      border: 3px solid #fff;
+      filter: drop-shadow(0 0 10px #ff4081aa);
+      animation: pulseGlow 1.35s infinite alternate;
+      position: relative;
+      z-index: 5;
+      text-shadow: 0 2px 8px #000, 0 0 8px #fff;
+    }
+
+    @keyframes pulseGlow {
+      from {
+        box-shadow: 0 0 16px 4px #ff4081bb, 0 4px 24px rgba(255,64,129,0.22);
+        filter: brightness(1.05) drop-shadow(0 0 12px #ffb9e6cc);
+      }
+      to {
+        box-shadow: 0 0 30px 12px #fc67fa99, 0 8px 28px rgba(255,64,129,0.38);
+        filter: brightness(1.15) drop-shadow(0 0 24px #fc67fa88);
+      }
     }
 
     .btn-primary:hover {
       background: var(--gradient-hover);
-      transform: scale(1.05);
-      box-shadow: 0 6px 32px rgba(255,64,129,0.34);
+      transform: scale(1.10);
+      box-shadow: 0 6px 32px rgba(255,64,129,0.34), 0 0 40px #fc67fa88;
+      filter: brightness(1.22) drop-shadow(0 0 30px #fc67fa99);
     }
 
     .btn-secondary {
@@ -389,6 +455,12 @@
         font-size: 1.06em;
         padding: 22px 9px 13px;
       }
+      header.sticky {
+        height: 85px;
+      }
+      #header-placeholder {
+        height: 85px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -400,6 +472,12 @@
       }
       .section-header h2 {
         font-size: 2em;
+      }
+      header.sticky {
+        height: 70px;
+      }
+      #header-placeholder {
+        height: 70px;
       }
     }
 
@@ -437,6 +515,12 @@
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         gap: 20px;
       }
+      header.sticky {
+        height: 48px;
+      }
+      #header-placeholder {
+        height: 48px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -451,7 +535,7 @@
   </style>
 </head>
 <body>
-  <header>
+  <header id="mainHeader">
     <!-- Cover image as background -->
     <img src="1.jpg" alt="Our Love Story Cover" class="cover-img" />
     <div class="header-overlay"></div>
@@ -463,11 +547,13 @@
           Begin Reading
         </button>
         <button class="btn btn-secondary" onclick="toggleMusic()" style="margin-left: 15px;">
-          ♫ Toggle Music
+          
         </button>
       </div>
     </div>
   </header>
+  <!-- Sticky placeholder for header -->
+  <div id="header-placeholder"></div>
 
   <button class="toggle-darkmode" onclick="toggleMode()" aria-label="Toggle dark mode">🌓</button>
 
@@ -479,9 +565,7 @@
     <section id="chapters">
       <div class="section-header">
         <h2>Our Story Chapters</h2>
-        
       </div>
-      
       <div class="nav-container" id="navLinks">
         <!-- Dynamic story links will appear here -->
       </div>
@@ -492,9 +576,9 @@
         <h2>About This Book</h2>
       </div>
       <div class="about-content">
-        <p>This book is a heartfelt collection of memories, reflections, and lessons from Peter and Masea's journey together. Each chapter provides a unique perspective on their relationship and the emotions we experienced.</p>
-        <p>Created as a therapeutic exercise and a tribute to what we shared, this book aims to preserve the authenticity of our  experience while providing closure and insight.</p>
-        <p>Some content is protected and requires authorization for access to maintain privacy and respect for both individuals </p>
+        <p>This book is a heartfelt collection of memories, reflections, and lessons from Peter and Masea's journey together. Each chapter provides a unique perspective on their relationship and the experience of love, heartbreak, and growth.</p>
+        <p>Created as a therapeutic exercise and a tribute to what we shared, this book aims to preserve the authenticity of our experience while providing closure and insight.</p>
+        <p>Some content is protected and requires authorization for access to maintain privacy and respect for both individuals.</p>
       </div>
     </section>
   </main>
@@ -505,11 +589,41 @@
     <div class="footer-content">
       <p>Created with <span class="heart">❤️</span> by Peter & Masea</p>
       <p>© Peter</p>
-      
     </div>
   </footer>
 
   <script>
+    // Sticky header with placeholder for smoothness
+    const header = document.getElementById('mainHeader');
+    const placeholder = document.getElementById('header-placeholder');
+    function getStickyHeight() {
+      // Match value in media queries
+      if (window.innerWidth <= 600) return 48;
+      if (window.innerWidth <= 900) return 85;
+      if (window.innerWidth <= 768) return 70;
+      return 110;
+    }
+
+    let lastIsSticky = false;
+    window.addEventListener('scroll', function() {
+      const stickyHeight = getStickyHeight();
+      const triggerPoint = header.offsetHeight - stickyHeight;
+      if (window.scrollY > triggerPoint) {
+        if (!lastIsSticky) {
+          header.classList.add('sticky');
+          placeholder.style.display = 'block';
+          placeholder.style.height = stickyHeight + 'px';
+          lastIsSticky = true;
+        }
+      } else {
+        if (lastIsSticky) {
+          header.classList.remove('sticky');
+          placeholder.style.display = 'none';
+          lastIsSticky = false;
+        }
+      }
+    });
+
     // Theme and mode functionality
     function toggleMode() {
       document.body.classList.toggle('dark-mode');
