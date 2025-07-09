@@ -8,20 +8,23 @@
   <meta name="description" content="A real story of love, heartbreak, and memory by Peter & Masea. Told in chapters with images and emotion.">
   <style>
     :root {
-      --bg-light: #fff;
+      --bg-light: #f7f7f7; /* Slightly off-white for softness */
       --text-light: #333;
       --bg-dark: #18181c;
       --text-dark: #f1f1f1;
-      --accent: #ff4081;
-      --menu-bg: rgba(255,255,255,0.85);
-      --menu-bg-dark: rgba(26,26,30,0.92);
-      --menu-blur: blur(10px);
-      --card-shadow: 0 6px 28px rgba(0,0,0,0.13);
-      --transition: 0.35s cubic-bezier(.4,0,.2,1);
+      --accent: #ff4081; /* Main accent color */
+      --menu-bg: rgba(255,255,255,0.75); /* Slightly more opaque */
+      --menu-bg-dark: rgba(26,26,30,0.88); /* Slightly more opaque */
+      --menu-blur: blur(12px); /* Increased blur for depth */
+      --card-shadow: 0 8px 30px rgba(0,0,0,0.08); /* Softer, wider shadow */
+      --transition: 0.4s cubic-bezier(.4,0,.2,1); /* Slightly longer, smoother transition */
       --gradient: linear-gradient(135deg, #ff4081, #fc67fa);
       --gradient-hover: linear-gradient(135deg, #e91e63, #b721ff);
+      --border-light: #e0e0e0;
+      --border-dark: #3a3b4f;
     }
 
+    /* General Body & Typography */
     * {
       margin: 0;
       padding: 0;
@@ -37,8 +40,9 @@
       background-color: var(--bg-light);
       color: var(--text-light);
       transition: background-color var(--transition), color var(--transition);
-      line-height: 1.6;
+      line-height: 1.7; /* Increased for better readability */
       overflow-x: hidden;
+      font-size: 16px; /* Base font size */
     }
 
     .dark-mode {
@@ -46,9 +50,130 @@
       color: var(--text-dark);
     }
 
+    /* Timers */
+    .timers-top-container {
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 20;
+      pointer-events: none;
+      padding-top: 26px;
+    }
+    @media (max-width: 600px) {
+      .timers-top-container { gap: 10px; padding-top: 12px; }
+    }
+    .timers-flex-wrap {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      justify-content: center;
+      width: 100%;
+      max-width: 680px;
+      flex-wrap: wrap;
+      pointer-events: auto;
+    }
+    @media (max-width: 600px) {
+      .timers-flex-wrap { flex-direction: column; gap: 10px; max-width: 99vw; }
+    }
+    .timer-box {
+      background: var(--menu-bg);
+      backdrop-filter: var(--menu-blur); /* Applied blur */
+      box-shadow: var(--card-shadow); /* Updated shadow */
+      border-radius: 20px;
+      padding: 18px 30px 16px 28px; /* Increased padding */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 280px; /* Slightly wider */
+      max-width: 99vw;
+      border: 1.5px solid var(--border-light); /* Dynamic border color */
+      pointer-events: auto;
+      transition: background var(--transition), color var(--transition), border var(--transition);
+    }
+    .dark-mode .timer-box {
+      background: var(--menu-bg-dark);
+      color: #fff;
+      border: 1.5px solid var(--border-dark);
+    }
+    @media (max-width: 400px) {
+      .timer-box { min-width: 0; padding: 12px 10px; }
+    }
+    .timer-caption {
+      font-size: 1.15em; /* Slightly larger */
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em; /* Increased spacing */
+      text-align: center;
+      text-shadow: 0px 2px 8px rgba(255,242,255,0.1), 0 1px 1px rgba(238,238,238,0.2);
+    }
+    .dark-mode .timer-caption { text-shadow: 0px 2px 8px rgba(34,34,34,0.7), 0 1px 1px rgba(17,17,17,0.1); }
+    .timer-value {
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 1.45em; /* Larger value */
+      font-weight: 700;
+      color: #2c3e50;
+      letter-spacing: 0.03em;
+      gap: 12px 8px; /* Increased gap */
+      justify-content: center;
+      align-items: center;
+      text-shadow: 0 2px 15px rgba(255,255,255,0.1), 0 1px 1px rgba(238,238,238,0.4);
+    }
+    .dark-mode .timer-value {
+      color: #fff;
+      text-shadow: 0 2px 15px rgba(34,34,34,0.7), 0 1px 1px rgba(17,17,17,0.1);
+    }
+    .timer-segment {
+      margin: 0 4px; /* Increased margin */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .timer-number {
+      font-size: 1.45em; /* Consistent with value font size */
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .timer-label {
+      font-size: 0.78em; /* Slightly larger */
+      font-weight: 500;
+      color: #777; /* Slightly darker */
+      margin-top: 0px; /* Adjusted margin */
+      letter-spacing: 0.02em;
+      text-shadow: none;
+    }
+    .dark-mode .timer-label { color: #ccc; }
+    header { position: relative; padding-top: 100px; }
+    @media (max-width: 600px) { header { padding-top: 78px; } }
+    header.sticky { padding-top: 0; }
+    header.sticky .timers-top-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: linear-gradient(90deg, #23232bda 20%, #4a235adb 100%); /* More opaque */
+      backdrop-filter: blur(10px); /* Increased blur */
+      width: 100vw;
+      z-index: 1101;
+      padding-top: 0;
+      box-shadow: 0 3px 20px rgba(36,18,52,0.4); /* Stronger shadow for sticky header */
+      gap: 7px;
+      transition: background 0.4s, box-shadow 0.4s, backdrop-filter 0.4s;
+    }
+    /* End timers */
+
     /* Header Styles */
     header {
-      background: linear-gradient(rgba(24,24,28,0.35), rgba(24,24,28,0.62)), 
+      background: linear-gradient(rgba(24,24,28,0.45), rgba(24,24,28,0.7)), /* More visible overlay */
                   linear-gradient(45deg, #2c3e50, #4a235a);
       height: 100vh;
       min-height: 540px;
@@ -59,11 +184,11 @@
       text-align: center;
       color: white;
       position: relative;
-      box-shadow: 0 12px 40px rgba(44,44,80,0.09);
+      box-shadow: 0 15px 50px rgba(44,44,80,0.12); /* Softer, wider shadow */
       padding: 20px;
       overflow: hidden;
       z-index: 10;
-      transition: background 0.4s, box-shadow 0.4s, opacity 0.4s;
+      transition: background var(--transition), box-shadow var(--transition), opacity var(--transition);
     }
 
     /* Sticky header when scrolled */
@@ -74,14 +199,14 @@
       width: 100vw;
       height: 110px;
       min-height: 0;
-      box-shadow: 0 6px 24px rgba(44,44,80,0.12);
+      box-shadow: 0 6px 24px rgba(44,44,80,0.18); /* Stronger shadow for sticky header */
       z-index: 1000;
       padding: 0 20px;
       justify-content: flex-end;
       align-items: center;
-      background: linear-gradient(rgba(24,24,28,0.85), rgba(24,24,28,0.92)), 
+      background: linear-gradient(rgba(24,24,28,0.92), rgba(24,24,28,0.97)), /* Even more opaque */
                   linear-gradient(45deg, #2c3e50, #4a235a);
-      transition: background 0.4s, box-shadow 0.4s, opacity 0.4s;
+      transition: background var(--transition), box-shadow var(--transition), opacity var(--transition);
     }
     header.sticky .cover-img,
     header.sticky .header-overlay {
@@ -117,14 +242,14 @@
       object-fit: cover;
       object-position: center;
       z-index: 0;
-      opacity: 0.82;
+      opacity: 0.88; /* Slightly less opaque */
       pointer-events: none;
       transition: opacity 0.5s;
     }
 
     .dark-mode .cover-img {
-      opacity: 0.32;
-      filter: brightness(0.7) grayscale(0.10);
+      opacity: 0.38; /* Slightly more visible */
+      filter: brightness(0.6) grayscale(0.15); /* More impactful */
     }
 
     .header-content {
@@ -139,32 +264,41 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.5) 100%);
+      background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.6) 100%); /* Deeper shadow */
       z-index: 1;
     }
 
     header h1 {
-      font-size: 3.4em;
-      margin-bottom: 0.35em;
-      text-shadow: 2px 2px 18px #0e1d30, 0px 2px 2px #000;
+      font-size: 3.8em; /* Larger title */
+      margin-bottom: 0.3em;
+      text-shadow: 3px 3px 20px #0e1d30, 0px 2px 4px #000; /* Stronger shadow */
       font-weight: 800;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
       animation: fadeInDown 1s ease-out;
       transition: font-size 0.4s;
     }
 
     header p {
-      font-size: 1.4em;
-      margin-bottom: 2.1em;
-      text-shadow: 1px 2px 10px #000;
+      font-size: 1.55em; /* Larger subtitle */
+      margin-bottom: 2.2em;
+      text-shadow: 1px 2px 12px #000;
       font-weight: 500;
-      opacity: 0.92;
+      opacity: 0.95;
       animation: fadeInUp 1.2s ease-out;
     }
 
     /* Buttons */
+    .btn-group {
+        display: flex;
+        gap: 15px; /* Added gap for button spacing */
+        justify-content: center;
+        align-items: center;
+    }
+
     .btn {
-      display: inline-block;
+      display: inline-flex; /* Use flex for icon/text alignment */
+      align-items: center;
+      justify-content: center;
       padding: 15px 40px;
       border: none;
       border-radius: 40px;
@@ -175,13 +309,13 @@
       transition: all 0.3s ease;
       letter-spacing: 1px;
       text-align: center;
+      gap: 8px; /* Gap between icon and text */
     }
 
     .btn-primary {
       background: var(--gradient);
       color: white;
-      box-shadow: 0 4px 24px rgba(255,64,129,0.22);
-      /* Enhancement for visibility */
+      box-shadow: 0 4px 24px rgba(255,64,129,0.28); /* Stronger shadow */
       font-size: 1.35em;
       padding: 19px 52px;
       border: 3px solid #fff;
@@ -194,31 +328,41 @@
 
     @keyframes pulseGlow {
       from {
-        box-shadow: 0 0 16px 4px #ff4081bb, 0 4px 24px rgba(255,64,129,0.22);
+        box-shadow: 0 0 16px 4px rgba(255,64,129,0.73), 0 4px 24px rgba(255,64,129,0.22); /* More vibrant */
         filter: brightness(1.05) drop-shadow(0 0 12px #ffb9e6cc);
       }
       to {
-        box-shadow: 0 0 30px 12px #fc67fa99, 0 8px 28px rgba(255,64,129,0.38);
-        filter: brightness(1.15) drop-shadow(0 0 24px #fc67fa88);
+        box-shadow: 0 0 30px 12px rgba(252,103,250,0.6), 0 8px 28px rgba(255,64,129,0.38); /* More vibrant */
+        filter: brightness(1.15) drop-shadow(0 0 24px rgba(252,103,250,0.53));
       }
     }
 
     .btn-primary:hover {
       background: var(--gradient-hover);
-      transform: scale(1.10);
-      box-shadow: 0 6px 32px rgba(255,64,129,0.34), 0 0 40px #fc67fa88;
-      filter: brightness(1.22) drop-shadow(0 0 30px #fc67fa99);
+      transform: scale(1.08); /* Slightly less aggressive scale */
+      box-shadow: 0 6px 32px rgba(255,64,129,0.4), 0 0 40px rgba(252,103,250,0.6); /* Enhanced shadow */
+      filter: brightness(1.2) drop-shadow(0 0 30px rgba(252,103,250,0.6));
     }
 
     .btn-secondary {
       background: transparent;
       color: white;
       border: 2px solid white;
+      padding: 15px 30px; /* Adjusted padding to match primary more */
     }
 
     .btn-secondary:hover {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.15); /* Slightly more visible hover */
       transform: translateY(-3px);
+    }
+    .dark-mode .btn-secondary {
+        border-color: var(--text-dark);
+        color: var(--text-dark);
+    }
+    .dark-mode .btn-secondary:hover {
+        background: rgba(255,255,255,0.1);
+        color: white; /* Make text white on hover in dark mode */
+        border-color: rgba(255,255,255,0.1);
     }
 
     /* Theme Toggle */
@@ -233,15 +377,19 @@
       border-radius: 50%;
       cursor: pointer;
       font-size: 1.3em;
-      box-shadow: 0 2px 12px rgba(32,32,38,0.28);
+      box-shadow: 0 3px 14px rgba(32,32,38,0.35); /* Slightly stronger shadow */
       z-index: 1002;
       transition: all 0.3s ease;
+      display: flex; /* For centering icon */
+      align-items: center;
+      justify-content: center;
     }
     
     .toggle-darkmode:hover {
-      background: #ff4081;
+      background: var(--accent); /* Consistent accent color on hover */
       color: #fff;
       transform: scale(1.1) rotate(20deg);
+      box-shadow: 0 4px 18px rgba(255,64,129,0.4);
     }
 
     /* Main Content */
@@ -256,39 +404,41 @@
     }
 
     section {
-      margin-bottom: 60px;
+      margin-bottom: 80px; /* Increased margin between sections */
     }
 
     .section-header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 50px; /* Increased margin */
     }
 
     .section-header h2 {
-      font-size: 2.5em;
-      margin-bottom: 15px;
+      font-size: 2.8em; /* Slightly larger */
+      margin-bottom: 18px; /* Adjusted margin */
       color: var(--accent);
       position: relative;
       display: inline-block;
+      font-weight: 700;
+      letter-spacing: 0.02em;
     }
 
     .section-header h2::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -12px; /* Slightly lower */
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
-      height: 4px;
+      width: 90px; /* Wider underline */
+      height: 5px; /* Thicker underline */
       background: var(--gradient);
-      border-radius: 2px;
+      border-radius: 3px;
     }
 
     /* Navigation Cards */
     .nav-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 32px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* Slightly wider min width */
+      gap: 36px; /* Increased gap */
       margin: 0 auto;
       max-width: 1100px;
     }
@@ -302,93 +452,135 @@
       color: var(--accent);
       background: var(--menu-bg);
       backdrop-filter: var(--menu-blur);
-      border: none;
-      border-radius: 22px;
+      border: 1.5px solid var(--border-light); /* Added subtle border */
+      border-radius: 24px; /* Slightly more rounded */
       font-weight: 700;
-      font-size: 1.22em;
+      font-size: 1.25em; /* Slightly larger text */
       text-align: center;
       box-shadow: var(--card-shadow);
       transition: all var(--transition);
       position: relative;
       overflow: hidden;
       letter-spacing: 0.5px;
-      padding: 34px 16px 20px;
-      min-height: 180px;
+      padding: 38px 20px 24px; /* Increased padding */
+      min-height: 200px; /* Taller cards */
       cursor: pointer;
     }
 
     .dark-mode .nav-item {
       background: var(--menu-bg-dark);
       color: #fff;
-      border: 1.5px solid #222;
+      border: 1.5px solid var(--border-dark); /* Dynamic border color */
     }
 
     .nav-item::before {
       content: '';
       position: absolute;
-      left: -80px;
-      top: -80px;
-      width: 160px;
-      height: 160px;
+      left: -90px; /* Larger */
+      top: -90px;
+      width: 180px; /* Larger */
+      height: 180px;
       background: radial-gradient(circle at 50% 50%, var(--accent) 0%, transparent 80%);
-      opacity: 0.08;
+      opacity: 0.06; /* Slightly less visible */
       z-index: 0;
       pointer-events: none;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s, transform 0.3s ease-out; /* Added transform for movement */
+    }
+    .nav-item:hover::before {
+      opacity: 0.12; /* Slightly more visible on hover */
+      transform: scale(1.1) translate(10px, 10px); /* Moves slightly on hover */
     }
 
+
     .nav-item span {
-      font-size: 2.5em;
-      margin-bottom: 15px;
+      font-size: 2.8em; /* Larger icon */
+      margin-bottom: 18px; /* Adjusted margin */
       display: block;
       transition: transform 0.3s;
+    }
+
+    .nav-item .desc {
+      font-size: 0.85em; /* Styling for description text */
+      font-weight: 400;
+      color: #666;
+      margin-top: 10px;
+      opacity: 0.9;
+      transition: color 0.3s;
+    }
+    .dark-mode .nav-item .desc {
+        color: #bbb;
     }
 
     .nav-item:hover, 
     .nav-item:focus-visible {
       background: var(--gradient);
       color: #fff;
-      transform: translateY(-8px) scale(1.045);
-      box-shadow: 0 12px 36px 0 rgba(255,64,129,0.16), 0 4px 24px rgba(44,44,88,0.07);
-    }
-
-    .nav-item:hover::before {
-      opacity: 0.15;
+      transform: translateY(-10px) scale(1.05); /* Increased movement */
+      box-shadow: 0 15px 40px rgba(255,64,129,0.2), 0 5px 28px rgba(44,44,88,0.1); /* Stronger shadow */
+      border-color: transparent; /* Remove border on hover */
     }
 
     .nav-item:hover span {
-      transform: scale(1.2);
+      transform: scale(1.15); /* Slightly less aggressive icon scale */
+    }
+    .nav-item:hover .desc {
+        color: #fff; /* White text for description on hover */
     }
 
     .nav-item:active {
-      transform: scale(0.97);
+      transform: scale(0.96); /* Slightly more aggressive active state */
+    }
+
+    /* About Section */
+    .about-content {
+      background: var(--menu-bg);
+      backdrop-filter: var(--menu-blur);
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      line-height: 1.8;
+      font-size: 1.05em;
+      max-width: 900px;
+      margin: 0 auto;
+      border: 1.5px solid var(--border-light);
+      transition: background var(--transition), color var(--transition), border var(--transition);
+    }
+    .dark-mode .about-content {
+        background: var(--menu-bg-dark);
+        border: 1.5px solid var(--border-dark);
+    }
+    .about-content p {
+        margin-bottom: 1.2em;
+    }
+    .about-content p:last-child {
+        margin-bottom: 0;
     }
 
     /* Admin Button */
     .admin-btn {
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
+      bottom: 1.8rem; /* Slightly higher */
+      right: 1.8rem;
       background: var(--gradient);
       color: white;
-      padding: 0.72rem 1.7rem;
-      border-radius: 2.2rem;
+      padding: 0.8rem 1.9rem; /* Slightly larger */
+      border-radius: 2.5rem; /* More rounded */
       font-weight: bold;
-      font-size: 1.05rem;
+      font-size: 1.1rem; /* Slightly larger */
       text-decoration: none;
-      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 3px 16px rgba(0, 0, 0, 0.25); /* Stronger shadow */
       z-index: 999;
       transition: all 0.3s ease;
-      letter-spacing: 0.7px;
+      letter-spacing: 0.8px; /* Increased spacing */
       border: none;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px; /* Increased gap for icon */
     }
 
     .admin-btn:hover {
-      transform: scale(1.07);
-      box-shadow: 0 6px 28px 0 rgba(255,64,129,0.34);
+      transform: scale(1.08); /* Consistent scale with primary button */
+      box-shadow: 0 7px 30px rgba(255,64,129,0.4); /* Stronger shadow */
       background: var(--gradient-hover);
     }
 
@@ -397,8 +589,9 @@
       background: linear-gradient(to right, #2c3e50, #4a235a);
       color: white;
       text-align: center;
-      padding: 30px 20px;
-      margin-top: 40px;
+      padding: 40px 20px; /* More padding */
+      margin-top: 60px; /* More margin */
+      font-size: 0.95em;
     }
 
     .footer-content {
@@ -407,38 +600,26 @@
     }
 
     .footer-content p {
-      margin: 10px 0;
+      margin: 12px 0; /* Adjusted margin */
+      opacity: 0.9;
     }
 
     .heart {
       color: var(--accent);
       animation: pulse 1.5s infinite;
       display: inline-block;
+      font-size: 1.1em; /* Slightly larger heart */
     }
 
-    /* Animations */
+    /* Animations (Existing) */
     @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.2); }
@@ -448,12 +629,20 @@
     /* Responsive Design */
     @media (max-width: 900px) {
       .nav-container {
-        gap: 22px;
+        gap: 26px;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Adjusted min-width */
       }
       .nav-item {
-        min-width: 140px;
-        font-size: 1.06em;
-        padding: 22px 9px 13px;
+        min-width: 180px;
+        font-size: 1.1em;
+        padding: 28px 12px 18px;
+        min-height: 160px;
+      }
+      .nav-item span {
+        font-size: 2.4em;
+      }
+      .nav-item .desc {
+        font-size: 0.8em;
       }
       header.sticky {
         height: 85px;
@@ -461,17 +650,20 @@
       #header-placeholder {
         height: 85px;
       }
+      .section-header h2 {
+        font-size: 2.4em;
+      }
     }
 
     @media (max-width: 768px) {
       header h1 {
-        font-size: 2.8em;
+        font-size: 3em;
       }
       header p {
-        font-size: 1.2em;
+        font-size: 1.3em;
       }
       .section-header h2 {
-        font-size: 2em;
+        font-size: 2.2em;
       }
       header.sticky {
         height: 70px;
@@ -487,33 +679,37 @@
         min-height: 370px;
       }
       header h1 {
-        font-size: 2.2em;
+        font-size: 2.5em;
       }
       header p {
-        font-size: 1.1em;
-        margin-bottom: 1.5em;
+        font-size: 1.15em;
+        margin-bottom: 1.8em;
       }
       .nav-item {
         min-height: 140px;
-        font-size: 0.93em;
-        padding: 14px 5px 8px;
+        font-size: 0.95em;
+        padding: 18px 8px 12px;
       }
       .nav-item span {
-        font-size: 2em;
+        font-size: 2.2em;
       }
       .btn {
-        padding: 12px 30px;
+        padding: 12px 28px;
         font-size: 1em;
       }
+      .btn-primary {
+        padding: 16px 40px;
+        font-size: 1.15em;
+      }
       .admin-btn {
-        font-size: 0.88rem;
-        padding: 0.6rem 1.2rem;
-        bottom: 1rem;
-        right: 1rem;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.4rem;
+        bottom: 1.2rem;
+        right: 1.2rem;
       }
       .nav-container {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 20px;
+        grid-template-columns: 1fr 1fr; /* Two columns on smaller screens */
+        gap: 18px;
       }
       header.sticky {
         height: 48px;
@@ -521,22 +717,47 @@
       #header-placeholder {
         height: 48px;
       }
-    }
-
-    @media (max-width: 480px) {
-      .nav-container {
-        grid-template-columns: 1fr 1fr;
-      }
       .toggle-darkmode {
         top: 15px;
         right: 15px;
+        padding: 8px 10px;
+        font-size: 1.1em;
+      }
+      .timers-top-container { gap: 8px; padding-top: 10px; }
+      .timers-flex-wrap { gap: 8px; }
+      .timer-box { padding: 10px 15px; min-width: unset; width: 95%; }
+      .timer-caption { font-size: 1em; margin-bottom: 5px; }
+      .timer-value { font-size: 1.1em; gap: 8px 5px; }
+      .timer-number { font-size: 1.1em; }
+      .timer-label { font-size: 0.65em; }
+    }
+
+    @media (max-width: 480px) {
+      .btn-group {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .btn {
+        width: 100%;
+        max-width: 280px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="timers-top-container" id="timersTop">
+    <div class="timers-flex-wrap">
+      <div class="timer-box">
+        <div class="timer-caption">DAYS DIVORCED FROM MASEA</div>
+        <div class="timer-value" id="divorced-timer"></div>
+      </div>
+      <div class="timer-box">
+        <div class="timer-caption">DAYS IN MARRIAGE WITH MASEA</div>
+        <div class="timer-value" id="marriage-timer"></div>
+      </div>
+    </div>
+  </div>
   <header id="mainHeader">
-    <!-- Cover image as background -->
     <img src="1.jpg" alt="Our Love Story Cover" class="cover-img" />
     <div class="header-overlay"></div>
     <div class="header-content">
@@ -546,13 +767,12 @@
         <button class="btn btn-primary" onclick="document.getElementById('chapters').scrollIntoView({ behavior: 'smooth' })">
           Begin Reading
         </button>
-        <button class="btn btn-secondary" onclick="toggleMusic()" style="margin-left: 15px;">
-          
+        <button class="btn btn-secondary" onclick="toggleMusic()" id="musicToggleButton">
+            <span id="musicButtonText">♪ Music</span>
         </button>
       </div>
     </div>
   </header>
-  <!-- Sticky placeholder for header -->
   <div id="header-placeholder"></div>
 
   <button class="toggle-darkmode" onclick="toggleMode()" aria-label="Toggle dark mode">🌓</button>
@@ -567,8 +787,7 @@
         <h2>Our Story Chapters</h2>
       </div>
       <div class="nav-container" id="navLinks">
-        <!-- Dynamic story links will appear here -->
-      </div>
+        </div>
     </section>
     
     <section id="about">
@@ -593,24 +812,107 @@
   </footer>
 
   <script>
+    // --- TIMER LOGIC ---
+    function timeDiff(from, to) {
+      let delta = Math.abs(to - from) / 1000;
+      const years = Math.floor(delta / (365.25*24*3600));
+      delta -= years * 365.25*24*3600;
+      const days = Math.floor(delta / (24*3600));
+      delta -= days * 24*3600;
+      const hours = Math.floor(delta / 3600);
+      delta -= hours * 3600;
+      const minutes = Math.floor(delta / 60);
+      delta -= minutes * 60;
+      const seconds = Math.floor(delta);
+      return { years, days, hours, minutes, seconds };
+    }
+    function formatTimer({years, days, hours, minutes, seconds}) {
+      return `
+        <span class="timer-segment">
+          <span class="timer-number">${years}</span>
+          <span class="timer-label">years</span>
+        </span>
+        <span class="timer-segment">
+          <span class="timer-number">${days}</span>
+          <span class="timer-label">days</span>
+        </span>
+        <span class="timer-segment">
+          <span class="timer-number">${String(hours).padStart(2,'0')}</span>
+          <span class="timer-label">hr</span>
+        </span>
+        <span class="timer-segment">
+          <span class="timer-number">${String(minutes).padStart(2,'0')}</span>
+          <span class="timer-label">min</span>
+        </span>
+        <span class="timer-segment">
+          <span class="timer-number">${String(seconds).padStart(2,'0')}</span>
+          <span class="timer-label">sec</span>
+        </span>
+      `;
+    }
+    // Marriage: 17 May 2024 00:00:00 to 8 May 2025 00:00:00
+    // Divorce: 8 May 2025 00:00:00 onwards
+    const marriageStart = new Date('2024-05-17T00:00:00Z');
+    const marriageEnd   = new Date('2025-05-08T00:00:00Z');
+    const divorceStart  = new Date('2025-05-08T00:00:00Z');
+
+    function updateTimers() {
+      const now = new Date();
+      // Timer 1: Divorced
+      const divorcedElem = document.getElementById('divorced-timer');
+      if (now > divorceStart) {
+        const diff = timeDiff(divorceStart, now);
+        divorcedElem.innerHTML = formatTimer(diff);
+      } else {
+        // If not yet divorced, show 00:00:00
+        divorcedElem.innerHTML = `<span class="timer-segment"><span class="timer-number">0</span> <span class="timer-label">years</span></span>
+          <span class="timer-segment"><span class="timer-number">0</span> <span class="timer-label">days</span></span>
+          <span class="timer-segment"><span class="timer-number">00</span> <span class="timer-label">hr</span></span>
+          <span class="timer-segment"><span class="timer-number">00</span> <span class="timer-label">min</span></span>
+          <span class="timer-segment"><span class="timer-number">00</span> <span class="timer-label">sec</span></span>`;
+      }
+      // Timer 2: Marriage
+      const marriageElem = document.getElementById('marriage-timer');
+      if (now >= marriageStart && now < marriageEnd) {
+        const diff = timeDiff(marriageStart, now);
+        marriageElem.innerHTML = formatTimer(diff);
+      } else if (now >= marriageEnd) {
+        // Show total duration if marriage has ended
+        const diff = timeDiff(marriageStart, marriageEnd);
+        marriageElem.innerHTML = formatTimer(diff);
+      } else {
+        // If marriage hasn't started, show 00:00:00
+        marriageElem.innerHTML = `<span class="timer-segment"><span class="timer-number">0</span> <span class="timer-label">years</span></span>
+          <span class="timer-segment"><span class="timer-number">0</span> <span class="timer-label">days</span></span>
+          <span class="timer-segment"><span class="timer-number">00</span> <span class="timer-label">hr</span></span>
+          <span class="timer-segment"><span class="timer-number">00</span> <span class="timer-label">min</span></span>
+          <span class="timer-segment"><span class="timer-number">00</span> <span class="timer-label">sec</span></span>`;
+      }
+    }
+    setInterval(updateTimers, 1000);
+    window.addEventListener('DOMContentLoaded', updateTimers);
+
     // Sticky header with placeholder for smoothness
     const header = document.getElementById('mainHeader');
     const placeholder = document.getElementById('header-placeholder');
     function getStickyHeight() {
       // Match value in media queries
       if (window.innerWidth <= 600) return 48;
+      if (window.innerWidth <= 768) return 70; /* Corrected order for 768px */
       if (window.innerWidth <= 900) return 85;
-      if (window.innerWidth <= 768) return 70;
       return 110;
     }
 
     let lastIsSticky = false;
     window.addEventListener('scroll', function() {
       const stickyHeight = getStickyHeight();
+      // Calculate trigger point relative to the actual height of the header
+      // This ensures it sticks before the bottom of the original header disappears
       const triggerPoint = header.offsetHeight - stickyHeight;
       if (window.scrollY > triggerPoint) {
         if (!lastIsSticky) {
           header.classList.add('sticky');
+          document.getElementById('timersTop').classList.add('sticky');
           placeholder.style.display = 'block';
           placeholder.style.height = stickyHeight + 'px';
           lastIsSticky = true;
@@ -618,6 +920,7 @@
       } else {
         if (lastIsSticky) {
           header.classList.remove('sticky');
+          document.getElementById('timersTop').classList.remove('sticky');
           placeholder.style.display = 'none';
           lastIsSticky = false;
         }
@@ -641,24 +944,31 @@
 
     // Background music control
     const bgMusic = document.getElementById('bg-music');
+    const musicToggleButton = document.getElementById('musicToggleButton');
+    const musicButtonText = document.getElementById('musicButtonText');
     let musicPlaying = false;
     
     function toggleMusic() {
       if (musicPlaying) {
         bgMusic.pause();
         musicPlaying = false;
+        musicButtonText.textContent = '♪ Music';
       } else {
-        bgMusic.play().catch(e => console.log("Autoplay prevented: ", e));
-        musicPlaying = true;
+        bgMusic.play().then(() => {
+          musicPlaying = true;
+          musicButtonText.textContent = '❚❚ Pause';
+        }).catch(e => console.log("Autoplay prevented: ", e));
       }
     }
 
-    // Enable music after user interaction
+    // Enable music after user interaction and set initial button text
     document.addEventListener('click', function initMusic() {
       bgMusic.volume = 0.3;
       bgMusic.play().then(() => {
         musicPlaying = true;
+        musicButtonText.textContent = '❚❚ Pause';
       }).catch(e => {
+        musicButtonText.textContent = '♪ Music'; // Still show play icon if autoplay fails
         console.log("Autoplay prevented, user interaction needed");
       });
       document.removeEventListener('click', initMusic);
@@ -682,6 +992,9 @@
     const password = 'digoitha';
 
     pages.forEach(({ file, label, icon, description }) => {
+      // These localStorage items are not defined in the provided HTML,
+      // so they will always be 'null' unless set elsewhere in your application.
+      // Assuming 'isHidden' and 'isProtected' are intended for future features.
       const isHidden = localStorage.getItem(file + '_hidden') === 'true';
       const isProtected = localStorage.getItem(file + '_protected') === 'true';
 
@@ -707,7 +1020,7 @@
       }
     });
 
-    // Simulate loading animation
+    // Simulate loading animation (if any, currently just adds 'loaded' class)
     window.addEventListener('load', function() {
       document.body.classList.add('loaded');
     });
